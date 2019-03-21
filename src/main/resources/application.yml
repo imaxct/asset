@@ -6,5 +6,3 @@ spring:
     username: asset
     password: password
     url: jdbc:mysql://localhost:3306/asset?useUnicode=true&character_set_server=utf8mb4&useSSL=false
-mybatis:
-  type-aliases-package: me.maxct.asset.domain

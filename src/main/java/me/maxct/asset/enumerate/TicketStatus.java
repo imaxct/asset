@@ -1,4 +1,4 @@
-package me.maxct.asset.domain.enumerate;
+package me.maxct.asset.enumerate;
 
 import lombok.Getter;
 
@@ -14,11 +14,11 @@ public enum TicketStatus {
     PASS("PASS", "审批通过"),
     DENY("DENY", "审批未通过"),
     DONE("DONE", "工单关闭");
-    private String code;
+    private String name;
     private String desc;
 
-    TicketStatus(String code, String desc) {
-        this.code = code;
+    TicketStatus(String name, String desc) {
+        this.name = name;
         this.desc = desc;
     }
 }

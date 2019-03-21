@@ -1,4 +1,4 @@
-package me.maxct.asset.domain.enumerate;
+package me.maxct.asset.enumerate;
 
 import lombok.Getter;
 
@@ -15,11 +15,11 @@ public enum PropertyStatus {
     OCCUPIED("OCCUPIED", "使用中"),
     OUT_OF_STOCK("OUT_OF_STOCK","库存不足");
 
-    private String code;
+    private String name;
     private String desc;
 
-    PropertyStatus(String code, String desc){
-        this.code = code;
+    PropertyStatus(String name, String desc){
+        this.name = name;
         this.desc = desc;
     }
 }

@@ -2,6 +2,8 @@ package me.maxct.asset.domain;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.*;
+
 import lombok.Data;
 
 /**
@@ -10,12 +12,16 @@ import lombok.Data;
  * 2019-03-12 10:41
  */
 @Data
+@Entity
+@Table(name = "asset_property")
 public class Property {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
-    private String name;
-    private String curStatus;
-    private String propertyId;
-    private Long depId;
+    private String        name;
+    private String        curStatus;
+    private String        propertyId;
+    private Long          depId;
 }
