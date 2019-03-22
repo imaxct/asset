@@ -20,9 +20,18 @@ public class User {
     private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
+
+    @Column(length = 30)
     private String        name;
+
+    @Column(length = 64)
     private String        username;
+
+    @Column(length = 64)
     private String        password;
+
     private Long          depId;
+
+    @Transient
     private List<Role>    roles;
 }

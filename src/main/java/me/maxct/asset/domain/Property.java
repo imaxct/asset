@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import lombok.Data;
+import me.maxct.asset.enumerate.PropertyStatus;
 
 /**
  * 资产
@@ -17,11 +18,19 @@ import lombok.Data;
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long          id;
-    private LocalDateTime gmtCreate;
-    private LocalDateTime gmtModified;
-    private String        name;
-    private String        curStatus;
-    private String        propertyId;
-    private Long          depId;
+    private Long           id;
+    private LocalDateTime  gmtCreate;
+    private LocalDateTime  gmtModified;
+
+    @Column(length = 64)
+    private String         name;
+
+    @Column(length = 64)
+    @Enumerated(EnumType.STRING)
+    private PropertyStatus curStatus;
+
+    @Column(length = 64)
+    private String         propertyId;
+
+    private Long           depId;
 }

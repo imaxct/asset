@@ -20,5 +20,7 @@ public class Process {
     private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
+
+    @Column(length = 64)
     private String        name;
 }

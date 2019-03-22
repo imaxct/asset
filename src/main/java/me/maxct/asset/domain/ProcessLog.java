@@ -26,5 +26,7 @@ public class ProcessLog {
     private Long          propertyId;
     private Long          ticketId;
     private boolean       pass;
+
+    @Column(length = 200)
     private String        processProposal;
 }

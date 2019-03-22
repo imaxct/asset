@@ -23,7 +23,11 @@ public class Ticket {
     private LocalDateTime gmtModified;
     private Long          applyUserId;
     private Long          curStepId;
+
+    @Column(length = 64)
     @Enumerated(EnumType.STRING)
     private TicketStatus  curStatus;
+
+    @Column(length = 250)
     private String        applyReason;
 }

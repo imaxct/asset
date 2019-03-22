@@ -17,8 +17,10 @@ import lombok.Data;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
-    private String name;
+
+    @Column(length = 64)
+    private String        name;
 }

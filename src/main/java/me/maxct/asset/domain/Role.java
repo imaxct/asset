@@ -19,6 +19,10 @@ public class Role {
     private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
+
+    @Column(length = 64)
     private String        name;
+
+    @Column(length = 200)
     private String        authorizedMapping;
 }

@@ -13,6 +13,4 @@ import me.maxct.asset.domain.User;
 public interface UserDao extends JpaRepository<User, Long> {
 
     User getUserByUsername(String username);
-
-    void insert(User user);
 }

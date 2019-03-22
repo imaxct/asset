@@ -20,8 +20,9 @@ public class Step {
     private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
+
+    @Column(length = 64)
     private String        name;
-    private String        authRequired;
     private Long          processId;
     private Long          nextStepId;
 }
