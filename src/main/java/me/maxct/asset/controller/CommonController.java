@@ -1,8 +1,11 @@
 package me.maxct.asset.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import me.maxct.asset.dto.Msg;
 import me.maxct.asset.interceptor.AuthCheck;
 
 /**
@@ -14,7 +17,7 @@ public class CommonController {
 
     @AuthCheck
     @GetMapping("/test")
-    public String test() {
-        return "test";
+    public Msg test(HttpServletRequest request) {
+        return Msg.ok("null", null);
     }
 }
