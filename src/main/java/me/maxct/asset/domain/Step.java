@@ -25,4 +25,6 @@ public class Step {
     private String        name;
     private Long          processId;
     private Long          nextStepId;
+    @Column(length = 200)
+    private String        roleRequired;
 }

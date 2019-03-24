@@ -139,7 +139,9 @@ CREATE TABLE `asset_role` (
   `gmt_modified` datetime DEFAULT NULL,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `authorized_mapping` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `role_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `role_name` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,6 +168,7 @@ CREATE TABLE `asset_step` (
   `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `process_id` bigint(19) unsigned NOT NULL,
   `next_step_id` bigint(19) unsigned DEFAULT NULL,
+  `role_required` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_process_id` (`process_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -195,6 +198,7 @@ CREATE TABLE `asset_ticket` (
   `cur_step_id` bigint(19) unsigned NOT NULL,
   `cur_status` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `apply_reason` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dep_id` bigint(19) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -271,4 +275,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-24 16:27:28
+-- Dump completed on 2019-03-24 21:27:49

@@ -25,4 +25,7 @@ public class Role {
 
     @Column(length = 200)
     private String        authorizedMapping;
+
+    @Column(length = 64)
+    private String        roleName;
 }

@@ -30,4 +30,6 @@ public class Ticket {
 
     @Column(length = 250)
     private String        applyReason;
+
+    private Long          depId;
 }
