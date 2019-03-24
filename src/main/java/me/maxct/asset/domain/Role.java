@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "asset_table")
+@Table(name = "asset_role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

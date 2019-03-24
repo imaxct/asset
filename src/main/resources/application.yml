@@ -11,4 +11,9 @@ spring:
     proxy-target-class: true
 
 app:
-  jwt-key: 0mxiejUhndfHgg17
+  token:
+    jwt-key: 0mxiejUhndfHgg17
+    expire-minute: 2880
+
+logging:
+  file: asset.log

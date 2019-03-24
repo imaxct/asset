@@ -8,6 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +26,7 @@ import me.maxct.asset.security.JwtUtil;
  */
 @Aspect
 @Component
+@Order(9)
 public class AuthCheckInterceptor {
 
     private final JwtUtil jwtUtil;
