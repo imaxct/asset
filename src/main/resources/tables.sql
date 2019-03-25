@@ -112,6 +112,8 @@ CREATE TABLE `asset_property` (
   `property_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `property_id` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dep_id` bigint(19) unsigned NOT NULL,
+  `process_id` bigint(19) unsigned DEFAULT NULL,
+  `occupy_user_id` bigint(19) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_property_id` (`property_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

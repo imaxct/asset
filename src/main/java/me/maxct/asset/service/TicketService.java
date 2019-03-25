@@ -16,6 +16,11 @@ public interface TicketService {
      */
     Msg submitTicket(Ticket ticket);
 
+    /**
+     * 获取用户的工单
+     * @param applyUserId
+     * @return
+     */
     Msg getTicketByUserId(String applyUserId);
 
 

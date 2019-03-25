@@ -33,4 +33,8 @@ public class Property {
     private String         propertyId;
 
     private Long           depId;
+
+    private Long           processId;
+
+    private Long           occupyUserId;
 }

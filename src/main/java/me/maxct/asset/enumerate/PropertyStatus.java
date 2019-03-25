@@ -10,10 +10,9 @@ import lombok.Getter;
 @Getter
 public enum PropertyStatus {
     PENDING_IMPORT("PENDING_IMPORT","待入库"),
-    IMPORTED("IMPORTED","已入库"),
     IDLE("IDLE", "空闲"),
     OCCUPIED("OCCUPIED", "使用中"),
-    OUT_OF_STOCK("OUT_OF_STOCK","库存不足");
+    PROCESSING("PROCESSING", "流程处理中");
 
     private String name;
     private String desc;
