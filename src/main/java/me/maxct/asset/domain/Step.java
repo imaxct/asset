@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import lombok.Data;
+import me.maxct.asset.enumerate.PropertyStatus;
 
 /**
  * 处理步骤元数据
@@ -17,14 +18,18 @@ import lombok.Data;
 public class Step {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long          id;
-    private LocalDateTime gmtCreate;
-    private LocalDateTime gmtModified;
+    private Long           id;
+    private LocalDateTime  gmtCreate;
+    private LocalDateTime  gmtModified;
 
     @Column(length = 64)
-    private String        name;
-    private Long          processId;
-    private Long          nextStepId;
+    private String         name;
+    private Long           processId;
+    private Long           nextStepId;
     @Column(length = 200)
-    private String        roleRequired;
+    private String         roleRequired;
+
+    @Column(length = 64)
+    @Enumerated(EnumType.STRING)
+    private PropertyStatus statusRequired;
 }

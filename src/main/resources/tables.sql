@@ -52,6 +52,8 @@ CREATE TABLE `asset_process` (
   `gmt_create` datetime DEFAULT current_timestamp(),
   `gmt_modified` datetime DEFAULT NULL,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `initial_status` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `final_status` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -171,6 +173,7 @@ CREATE TABLE `asset_step` (
   `process_id` bigint(19) unsigned NOT NULL,
   `next_step_id` bigint(19) unsigned DEFAULT NULL,
   `role_required` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_required` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_process_id` (`process_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
