@@ -32,4 +32,6 @@ public class Process {
     @Column(length = 64)
     @Enumerated(EnumType.STRING)
     private PropertyStatus finalStatus;
+
+    private Long           firstStepId;
 }

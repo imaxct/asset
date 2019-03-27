@@ -48,6 +48,8 @@ public class ProcessServiceImpl implements ProcessService {
             }
         }
         stepDao.saveAll(steps);
+        process.setFirstStepId(steps.get(0).getId());
+        processDao.saveAndFlush(process);
         return Msg.ok(null);
     }
 

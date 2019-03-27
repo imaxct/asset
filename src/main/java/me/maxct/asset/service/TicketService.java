@@ -21,7 +21,12 @@ public interface TicketService {
      * @param applyUserId
      * @return
      */
-    Msg getTicketByUserId(String applyUserId);
+    Msg getTicketByUserId(Long applyUserId);
 
-
+    /**
+     * 获取工单详情 处理记录(步骤定义从processService获取)
+     * @param ticketId
+     * @return
+     */
+    Msg getTicketDetail(Long ticketId);
 }
