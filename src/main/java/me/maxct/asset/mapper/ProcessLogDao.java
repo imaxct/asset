@@ -1,5 +1,7 @@
 package me.maxct.asset.mapper;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,5 @@ import me.maxct.asset.domain.ProcessLog;
  */
 @Repository
 public interface ProcessLogDao extends JpaRepository<ProcessLog, Long> {
+    List<ProcessLog> findByTicketId(Long ticketId);
 }

@@ -12,9 +12,11 @@ import me.maxct.asset.domain.Process;
 import me.maxct.asset.domain.Property;
 import me.maxct.asset.domain.Ticket;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.TicketVO;
 import me.maxct.asset.enumerate.PropertyStatus;
 import me.maxct.asset.enumerate.TicketStatus;
 import me.maxct.asset.mapper.ProcessDao;
+import me.maxct.asset.mapper.ProcessLogDao;
 import me.maxct.asset.mapper.PropertyDao;
 import me.maxct.asset.mapper.TicketDao;
 import me.maxct.asset.service.TicketService;
@@ -26,9 +28,10 @@ import me.maxct.asset.service.TicketService;
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    private final TicketDao   ticketDao;
-    private final ProcessDao  processDao;
-    private final PropertyDao propertyDao;
+    private final TicketDao     ticketDao;
+    private final ProcessDao    processDao;
+    private final PropertyDao   propertyDao;
+    private final ProcessLogDao processLogDao;
 
     @Override
     @Transactional
@@ -53,13 +56,13 @@ public class TicketServiceImpl implements TicketService {
         property.setGmtModified(LocalDateTime.now());
 
         propertyDao.saveAndFlush(property);
-        // TODO TBD
+
         ticket.setGmtCreate(LocalDateTime.now());
         ticket.setGmtModified(LocalDateTime.now());
         ticket.setCurStatus(TicketStatus.PROCESSING);
         ticket.setCurStepId(process.getFirstStepId());
         ticketDao.saveAndFlush(ticket);
-        return null;
+        return Msg.ok(null);
     }
 
     @Override
@@ -69,13 +72,22 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Msg getTicketDetail(Long ticketId) {
-        return null;
+        TicketVO ticketVO = new TicketVO();
+        Optional<Ticket> ticketOptional = ticketDao.findById(ticketId);
+        Assert.isTrue(ticketOptional.isPresent(), "记录不存在");
+
+        ticketVO.setTicket(ticketOptional.get());
+        ticketVO.setLogs(processLogDao.findByTicketId(ticketId));
+
+        return Msg.ok(ticketVO);
     }
 
     @Autowired
-    public TicketServiceImpl(TicketDao ticketDao, ProcessDao processDao, PropertyDao propertyDao) {
+    public TicketServiceImpl(TicketDao ticketDao, ProcessDao processDao, PropertyDao propertyDao,
+                             ProcessLogDao processLogDao) {
         this.ticketDao = ticketDao;
         this.processDao = processDao;
         this.propertyDao = propertyDao;
+        this.processLogDao = processLogDao;
     }
 }

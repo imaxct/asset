@@ -15,5 +15,4 @@ public interface PropertyService {
 
     Msg getPropertyById(String propertyId);
 
-
 }
