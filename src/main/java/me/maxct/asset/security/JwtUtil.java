@@ -22,11 +22,11 @@ import me.maxct.asset.domain.User;
 public class JwtUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
 
-    @Value("app.token.jwtKey")
+    @Value("${app.token.jwt-key}")
     private String              jwtKey;
 
-    @Value("expire-minute")
-    public Long                 tokenExpireMinute;
+    @Value("${app.token.expire-minute}")
+    public long                 tokenExpireMinute;
 
     public String sign(User user) {
         Key key = Keys.hmacShaKeyFor(jwtKey.getBytes());

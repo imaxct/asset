@@ -6,4 +6,5 @@ package me.maxct.asset.constant;
  */
 public class AppConst {
     public static final String TOKEN_NAME = "Random-timestamp";
+    public static final String USER_KEY   = "req-user-key";
 }

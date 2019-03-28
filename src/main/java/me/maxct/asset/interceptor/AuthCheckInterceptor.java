@@ -54,6 +54,7 @@ public class AuthCheckInterceptor {
         Assert.isTrue(userOptional.isPresent(), "用户不存在");
 
         user = userOptional.get();
+        request.setAttribute(AppConst.USER_KEY, user);
 
         List<Role> roles = roleDao.getUserRoles(user.getId());
 
