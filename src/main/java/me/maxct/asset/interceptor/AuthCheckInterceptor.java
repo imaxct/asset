@@ -1,6 +1,7 @@
 package me.maxct.asset.interceptor;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import me.maxct.asset.constant.AppConst;
@@ -47,7 +49,11 @@ public class AuthCheckInterceptor {
         if (user == null || StringUtils.isEmpty(user.getUsername())) {
             return Msg.err("登陆过期");
         }
-        user = userDao.getUserByUsername(user.getUsername());
+
+        Optional<User> userOptional = userDao.findByUsername(user.getUsername());
+        Assert.isTrue(userOptional.isPresent(), "用户不存在");
+
+        user = userOptional.get();
 
         List<Role> roles = roleDao.getUserRoles(user.getId());
 

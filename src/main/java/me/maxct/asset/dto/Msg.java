@@ -20,8 +20,8 @@ public class Msg<T> {
         return m;
     }
 
-    public static <T> Msg ok(T obj) {
-        Msg msg = new Msg();
+    public static <T> Msg<T> ok(T obj) {
+        Msg<T> msg = new Msg<>();
         msg.ok = true;
         msg.obj = obj;
         return msg;

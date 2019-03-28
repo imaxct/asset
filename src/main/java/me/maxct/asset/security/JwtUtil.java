@@ -26,7 +26,7 @@ public class JwtUtil {
     private String              jwtKey;
 
     @Value("expire-minute")
-    private Long                tokenExpireMinute;
+    public Long                 tokenExpireMinute;
 
     public String sign(User user) {
         Key key = Keys.hmacShaKeyFor(jwtKey.getBytes());
