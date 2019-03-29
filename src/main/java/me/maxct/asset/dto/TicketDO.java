@@ -10,6 +10,5 @@ import lombok.Data;
 public class TicketDO {
     private Long   propertyId;
     private Long   processId;
-    private Long   userId;
     private String applyReason;
 }

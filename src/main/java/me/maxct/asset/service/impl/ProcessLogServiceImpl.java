@@ -41,12 +41,12 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         Step step = stepOptional.get();
 
         // 当前流程需要等于stepId
-        if (stepOptional.get().getId().compareTo(ticketOptional.get().getCurStepId()) != 0) {
+        if (stepOptional.get().getId().compareTo(ticket.getCurStepId()) != 0) {
             return Msg.err("流程不正确");
         }
 
         // 流程发起人不能进行操作
-        if (ticketOptional.get().getApplyUserId().compareTo(processLog.getProcessUserId()) == 0) {
+        if (ticket.getApplyUserId().compareTo(processLog.getProcessUserId()) == 0) {
             return Msg.err("流程发起人不能进行操作");
         }
 
@@ -57,10 +57,10 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         if (count <= 0) {
             return Msg.err("您没有权限进行当前操作");
         }
-        Optional<Process> processOptional = processDao.findById(processLog.getProcessId());
+        Optional<Process> processOptional = processDao.findById(ticket.getProcessId());
         Assert.isTrue(processOptional.isPresent(), "流程不存在");
         Process process = processOptional.get();
-        Optional<Property> propertyOptional = propertyDao.findById(processLog.getPropertyId());
+        Optional<Property> propertyOptional = propertyDao.findById(ticket.getPropertyId());
         Assert.isTrue(propertyOptional.isPresent(), "资产记录不存在");
         Property property = propertyOptional.get();
 
