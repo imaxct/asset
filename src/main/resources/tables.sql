@@ -112,7 +112,7 @@ CREATE TABLE `asset_property` (
   `gmt_create` datetime DEFAULT current_timestamp(),
   `gmt_modified` datetime DEFAULT NULL,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `property_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cur_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `property_id` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dep_id` bigint(19) unsigned NOT NULL,
   `process_id` bigint(19) unsigned DEFAULT NULL,

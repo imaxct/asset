@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import me.maxct.asset.domain.Ticket;
-import me.maxct.asset.enumerate.PropertyStatus;
+import me.maxct.asset.enumerate.TicketStatus;
 
 /**
  * @author imaxct
@@ -17,5 +17,5 @@ import me.maxct.asset.enumerate.PropertyStatus;
 public interface TicketDao extends JpaRepository<Ticket, Long> {
     List<Ticket> getByApplyUserId(Long applyUserId);
 
-    Optional<Ticket> findByPropertyIdAndCurStatus(Long propertyId, PropertyStatus curStatus);
+    Optional<Ticket> findByPropertyIdAndCurStatus(Long propertyId, TicketStatus curStatus);
 }

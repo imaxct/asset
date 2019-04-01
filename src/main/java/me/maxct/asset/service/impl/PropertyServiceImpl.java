@@ -16,6 +16,7 @@ import me.maxct.asset.domain.Ticket;
 import me.maxct.asset.dto.Msg;
 import me.maxct.asset.dto.PropertyVO;
 import me.maxct.asset.enumerate.PropertyStatus;
+import me.maxct.asset.enumerate.TicketStatus;
 import me.maxct.asset.mapper.ProcessDao;
 import me.maxct.asset.mapper.PropertyDao;
 import me.maxct.asset.mapper.StepDao;
@@ -47,7 +48,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = propertyOptional.get();
 
         Optional<Ticket> ticketOptional = ticketDao.findByPropertyIdAndCurStatus(property.getId(),
-            PropertyStatus.PROCESSING);
+            TicketStatus.PROCESSING);
         Ticket ticket = null;
         Step step = null;
         if (ticketOptional.isPresent()) {
