@@ -37,6 +37,15 @@ public class PropertyController {
     }
 
     @AuthCheck
+    @GetMapping("/getById")
+    public Msg getPropertyBrief(@RequestParam("id") Long id, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+
+        return propertyService.getPropertyById(id);
+    }
+
+    @AuthCheck
     @PostMapping("/add")
     public Msg addProperty(@RequestBody List<PropertyDO> properties, HttpServletRequest request) {
         Assert.notEmpty(properties, "参数错误");
