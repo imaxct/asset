@@ -1,7 +1,6 @@
 package me.maxct.asset.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ public class ProcessLogServiceImpl implements ProcessLogService {
     private final RoleDao       roleDao;
     private final PropertyDao   propertyDao;
     private final ProcessLogDao processLogDao;
+    private final UserDao       userDao;
 
     @Override
     @Transactional
@@ -41,7 +41,7 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         Step step = stepOptional.get();
 
         // 当前流程需要等于stepId
-        if (stepOptional.get().getId().compareTo(ticket.getCurStepId()) != 0) {
+        if (step.getId().compareTo(ticket.getCurStepId()) != 0) {
             return Msg.err("流程不正确");
         }
 
@@ -51,10 +51,13 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         }
 
         // 当前step权限检查
-        List<Role> roles = roleDao.getUserRoles(processLog.getProcessUserId());
-        long count = roles.stream()
-            .filter(it -> stepOptional.get().getRoleRequired().contains(it.getRoleName())).count();
-        if (count <= 0) {
+        Optional<User> userOptional = userDao.findById(processLog.getProcessUserId());
+        Assert.isTrue(userOptional.isPresent(), "参数错误");
+
+        Optional<Role> roleOptional = roleDao.findById(userOptional.get().getRoleId());
+        Assert.isTrue(roleOptional.isPresent(), "没有权限进行当前操作");
+
+        if (!step.getRoleRequired().contains(roleOptional.get().getRoleName())) {
             return Msg.err("您没有权限进行当前操作");
         }
         Optional<Process> processOptional = processDao.findById(ticket.getProcessId());
@@ -100,12 +103,13 @@ public class ProcessLogServiceImpl implements ProcessLogService {
     @Autowired
     public ProcessLogServiceImpl(TicketDao ticketDao, ProcessDao processDao, StepDao stepDao,
                                  RoleDao roleDao, PropertyDao propertyDao,
-                                 ProcessLogDao processLogDao) {
+                                 ProcessLogDao processLogDao, UserDao userDao) {
         this.ticketDao = ticketDao;
         this.processDao = processDao;
         this.stepDao = stepDao;
         this.roleDao = roleDao;
         this.propertyDao = propertyDao;
         this.processLogDao = processLogDao;
+        this.userDao = userDao;
     }
 }

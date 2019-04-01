@@ -12,7 +12,7 @@ spring:
 
 app:
   token:
-    jwt-key: 0mxiejUhndfHgg17
+    jwt-key: 0mxiejUhndfHgg17oxmawer90dmdnfd73
     expire-minute: 2880
 
 logging:

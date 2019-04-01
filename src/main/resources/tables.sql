@@ -235,6 +235,7 @@ CREATE TABLE `asset_user` (
   `username` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dep_id` bigint(19) unsigned NOT NULL,
+  `role_id` bigint(19) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `asset_user_username_uindex` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -247,31 +248,6 @@ CREATE TABLE `asset_user` (
 LOCK TABLES `asset_user` WRITE;
 /*!40000 ALTER TABLE `asset_user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `asset_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `asset_user_role`
---
-
-DROP TABLE IF EXISTS `asset_user_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `asset_user_role` (
-  `id` bigint(19) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(19) unsigned NOT NULL,
-  `role_id` bigint(19) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `asset_user_role`
---
-
-LOCK TABLES `asset_user_role` WRITE;
-/*!40000 ALTER TABLE `asset_user_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asset_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

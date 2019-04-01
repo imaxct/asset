@@ -1,7 +1,6 @@
 package me.maxct.asset.domain;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -32,6 +31,5 @@ public class User {
 
     private Long          depId;
 
-    @Transient
-    private List<Role>    roles;
+    private Long          roleId;
 }

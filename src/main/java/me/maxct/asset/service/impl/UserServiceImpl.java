@@ -1,8 +1,6 @@
 package me.maxct.asset.service.impl;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,7 @@ import me.maxct.asset.domain.Role;
 import me.maxct.asset.domain.User;
 import me.maxct.asset.dto.LoginVO;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.RoleVO;
 import me.maxct.asset.mapper.DepartmentDao;
 import me.maxct.asset.mapper.RoleDao;
 import me.maxct.asset.mapper.UserDao;
@@ -35,7 +34,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userDao.findByUsername(username);
         Assert.isTrue(userOptional.isPresent(), "用户不存在");
         User user = userOptional.get();
-        List<Role> roles = roleDao.getUserRoles(user.getId());
+
+        Optional<Role> roleOptional = roleDao.findById(user.getRoleId());
+        Assert.isTrue(roleOptional.isPresent(), "角色不存在");
+
         String token = jwtUtil.sign(user);
         Optional<Department> departmentOptional = departmentDao.findById(user.getDepId());
         Assert.isTrue(departmentOptional.isPresent(), "记录不存在");
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
         vo.setName(user.getName());
         vo.setUsername(username);
         vo.setExpireSecond(jwtUtil.tokenExpireMinute * 60L);
-        vo.setRoleName(roles.stream().map(Role::getName).collect(Collectors.toList()));
+        vo.setRole(new RoleVO(roleOptional.get()));
         return Msg.ok(vo);
     }
 

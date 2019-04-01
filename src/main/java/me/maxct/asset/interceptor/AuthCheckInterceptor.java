@@ -1,6 +1,5 @@
 package me.maxct.asset.interceptor;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,20 +55,22 @@ public class AuthCheckInterceptor {
         user = userOptional.get();
         request.setAttribute(AppConst.USER_KEY, user);
 
-        List<Role> roles = roleDao.getUserRoles(user.getId());
+        Optional<Role> roleOptional = roleDao.findById(user.getRoleId());
+        Assert.isTrue(roleOptional.isPresent(), "没有权限进行此操作");
+        Role role = roleOptional.get();
 
         String requestMapping = request.getRequestURI();
-        for (Role role : roles) {
-            String[] arr;
-            if (!StringUtils.isEmpty(role.getAuthorizedMapping())) {
-                arr = role.getAuthorizedMapping().split(",");
-                for (String uri : arr) {
-                    if (requestMapping.startsWith(uri)) {
-                        return joinPoint.proceed();
-                    }
+
+        String[] arr;
+        if (!StringUtils.isEmpty(role.getAuthorizedMapping())) {
+            arr = role.getAuthorizedMapping().split(",");
+            for (String uri : arr) {
+                if (requestMapping.startsWith(uri)) {
+                    return joinPoint.proceed();
                 }
             }
         }
+
         return Msg.err("没有权限进行此操作");
     }
 

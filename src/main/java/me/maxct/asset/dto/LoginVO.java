@@ -1,7 +1,5 @@
 package me.maxct.asset.dto;
 
-import java.util.List;
-
 import lombok.Data;
 
 /**
@@ -10,11 +8,11 @@ import lombok.Data;
  */
 @Data
 public class LoginVO {
-    private Long         id;
-    private String       username;
-    private String       name;
-    private String       token;
-    private Long         expireSecond;
-    private String       depName;
-    private List<String> roleName;
+    private Long   id;
+    private String username;
+    private String name;
+    private String token;
+    private Long   expireSecond;
+    private String depName;
+    private RoleVO role;
 }
