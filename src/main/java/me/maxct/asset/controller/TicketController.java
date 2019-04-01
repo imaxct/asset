@@ -38,6 +38,7 @@ public class TicketController {
         ticket.setApplyUserId(user.getId());
         ticket.setPropertyId(ticketDO.getPropertyId());
         ticket.setProcessId(ticketDO.getProcessId());
+        ticket.setTransferUserId(ticketDO.getTransferUserId());
 
         return ticketService.submitTicket(ticket);
     }

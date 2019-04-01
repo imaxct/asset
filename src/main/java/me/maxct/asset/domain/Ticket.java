@@ -34,4 +34,6 @@ public class Ticket {
     private String        applyReason;
 
     private Long          depId;
+
+    private Long          transferUserId;
 }

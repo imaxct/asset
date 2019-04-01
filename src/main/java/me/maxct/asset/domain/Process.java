@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import lombok.Data;
 import me.maxct.asset.enumerate.PropertyStatus;
+import me.maxct.asset.enumerate.TransferType;
 
 /**
  * 处理流程元数据
@@ -34,4 +35,8 @@ public class Process {
     private PropertyStatus finalStatus;
 
     private Long           firstStepId;
+
+    @Column(length = 64)
+    @Enumerated(EnumType.STRING)
+    private TransferType   transferType;
 }

@@ -75,8 +75,24 @@ public class ProcessLogServiceImpl implements ProcessLogService {
 
         if (processLog.isPass()) {
             // 最后一个流程
-            if (stepOptional.get().getNextStepId() == null) {
+            if (step.getNextStepId() == null) {
                 property.setCurStatus(process.getFinalStatus());
+                // TODO 流转人
+                if (process.getTransferType() != null) {
+                    switch (process.getTransferType()) {
+                        case APPLY_USER:
+                            property.setOccupyUserId(ticket.getApplyUserId());
+                            break;
+                        case STEP_HANDLER:
+                            property.setOccupyUserId(processLog.getProcessUserId());
+                            break;
+                        case SPECIFIC_USER:
+                            property.setOccupyUserId(ticket.getTransferUserId());
+                            break;
+                        default:
+                            property.setOccupyUserId(null);
+                    }
+                }
                 ticket.setCurStatus(TicketStatus.PASS);
             } else {
                 property.setCurStatus(PropertyStatus.PROCESSING);
