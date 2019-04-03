@@ -1,0 +1,20 @@
+package me.maxct.asset.dto;
+
+import java.util.List;
+
+import lombok.Data;
+import me.maxct.asset.enumerate.PropertyStatus;
+import me.maxct.asset.enumerate.TransferType;
+
+/**
+ * @author imaxct
+ * 2019-04-03 18:42
+ */
+@Data
+public class ProcessDO {
+    private String         name;
+    private TransferType   transferType;
+    private PropertyStatus initialStatus;
+    private PropertyStatus finalStatus;
+    private List<StepDO>   step;
+}

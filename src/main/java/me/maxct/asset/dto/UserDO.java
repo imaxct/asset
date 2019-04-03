@@ -11,6 +11,7 @@ public class UserDO {
     private Long   id;
     private String username;
     private String name;
+    private String oldPassword;
     private String password;
     private Long   depId;
     private Long   roleId;

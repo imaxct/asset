@@ -1,6 +1,7 @@
 package me.maxct.asset.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import me.maxct.asset.domain.Property;
 import me.maxct.asset.domain.Step;
@@ -78,6 +80,25 @@ public class PropertyServiceImpl implements PropertyService {
         }
         propertyDao.saveAll(properties);
         return Msg.ok(properties);
+    }
+
+    @Override
+    public Msg getAvailable(Long userId, Long depId) {
+        List<Property> properties = new ArrayList<>();
+        List<Property> list = propertyDao.findByOccupyUserId(userId);
+        if (!CollectionUtils.isEmpty(list)) {
+            properties.addAll(list);
+        }
+        list = propertyDao.findByDepId(depId);
+        if (!CollectionUtils.isEmpty(list)) {
+            properties.addAll(list);
+        }
+        return Msg.ok(properties);
+    }
+
+    @Override
+    public Msg list() {
+        return Msg.ok(propertyDao.findAll());
     }
 
     @Autowired

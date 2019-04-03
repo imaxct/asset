@@ -37,6 +37,22 @@ public class PropertyController {
     }
 
     @AuthCheck
+    @GetMapping("/list")
+    public Msg listProperty(HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return propertyService.list();
+    }
+
+    @AuthCheck
+    @GetMapping("/avail")
+    public Msg getAvailable(HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return propertyService.getAvailable(user.getId(), user.getDepId());
+    }
+
+    @AuthCheck
     @GetMapping("/getById")
     public Msg getPropertyBrief(@RequestParam("id") Long id, HttpServletRequest request) {
         User user = (User) request.getAttribute(AppConst.USER_KEY);

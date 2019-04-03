@@ -31,4 +31,15 @@ public interface PropertyService {
      * @return
      */
     Msg addProperty(List<Property> properties);
+
+    /**
+     * 获取可操作的
+     * @param userId
+     * @param depId
+     * @return
+     */
+    Msg getAvailable(Long userId, Long depId);
+
+    Msg list();
+
 }

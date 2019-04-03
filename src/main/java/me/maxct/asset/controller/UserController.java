@@ -100,8 +100,10 @@ public class UserController {
         Assert.notNull(user, "鉴权失败");
 
         Assert.isTrue(!StringUtils.isEmpty(userDO.getPassword()), "参数错误");
+        Assert.isTrue(!StringUtils.isEmpty(userDO.getOldPassword()), "原密码为空");
         Assert.isTrue(6 <= userDO.getPassword().length() && userDO.getPassword().length() <= 64,
             "密码长度错误(6-64)");
+        Assert.isTrue(!userDO.getPassword().equals(userDO.getOldPassword()), "新密码与原密码不能相同");
 
         user.setPassword(userDO.getPassword());
 

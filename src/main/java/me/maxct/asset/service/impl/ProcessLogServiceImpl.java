@@ -77,7 +77,6 @@ public class ProcessLogServiceImpl implements ProcessLogService {
             // 最后一个流程
             if (step.getNextStepId() == null) {
                 property.setCurStatus(process.getFinalStatus());
-                // TODO 流转人
                 if (process.getTransferType() != null) {
                     switch (process.getTransferType()) {
                         case APPLY_USER:

@@ -4,11 +4,10 @@ import lombok.Data;
 
 /**
  * @author imaxct
- * 2019-03-30 13:51
+ * 2019-04-03 16:24
  */
 @Data
-public class PropertyDO {
+public class DepDO {
     private Long   id;
     private String name;
-    private Long   depId;
 }
