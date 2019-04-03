@@ -17,3 +17,6 @@ app:
 
 logging:
   file: asset.log
+
+server:
+  port: 8081

@@ -1,5 +1,6 @@
 package me.maxct.asset.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,23 @@ public class UserServiceImpl implements UserService {
         vo.setExpireSecond(jwtUtil.tokenExpireMinute * 60L);
         vo.setRole(new RoleVO(roleOptional.get()));
         return Msg.ok(vo);
+    }
+
+    @Override
+    public Msg listUser(int pageNo, int size) {
+        return null;
+    }
+
+    @Override
+    public Msg saveUser(User user) {
+        user.setGmtModified(LocalDateTime.now());
+        userDao.saveAndFlush(user);
+        return Msg.ok(null);
+    }
+
+    @Override
+    public User getUser(Long id) {
+        return userDao.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
     @Autowired
