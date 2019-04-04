@@ -105,6 +105,8 @@ public class UserController {
             "密码长度错误(6-64)");
         Assert.isTrue(!userDO.getPassword().equals(userDO.getOldPassword()), "新密码与原密码不能相同");
 
+        Assert.isTrue(user.getPassword().equals(userDO.getOldPassword()), "旧密码错误");
+
         user.setPassword(userDO.getPassword());
 
         return userService.saveUser(user);

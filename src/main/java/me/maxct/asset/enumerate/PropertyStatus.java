@@ -12,7 +12,10 @@ public enum PropertyStatus {
     PENDING_IMPORT("PENDING_IMPORT","待入库"),
     IDLE("IDLE", "空闲"),
     OCCUPIED("OCCUPIED", "使用中"),
-    PROCESSING("PROCESSING", "流程处理中");
+    PROCESSING("PROCESSING", "流程处理中"),
+    DAMAGED("DAMAGED", "损坏"),
+    LOST("LOST", "丢失"),
+    RUINED("RUINED", "报废");
 
     private String name;
     private String desc;
