@@ -51,6 +51,10 @@ public class TicketServiceImpl implements TicketService {
             return Msg.err("当前资产状态不满足, 不能申请当前流程");
         }
 
+        if (process.getFinalStatus() == null && ticket.getFinalStatus() == null) {
+            return Msg.err("未选择资产最终状态");
+        }
+
         property.setCurStatus(PropertyStatus.PROCESSING);
         property.setProcessId(process.getId());
         property.setGmtModified(LocalDateTime.now());

@@ -112,6 +112,14 @@ public class UserController {
         return userService.saveUser(user);
     }
 
+    @AuthCheck
+    @GetMapping("/getDepUser")
+    public Msg getDepUserList(HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return userService.getDepUser();
+    }
+
     public UserController(UserService userService) {
         this.userService = userService;
     }

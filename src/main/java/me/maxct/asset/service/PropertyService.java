@@ -33,13 +33,18 @@ public interface PropertyService {
     Msg addProperty(List<Property> properties);
 
     /**
-     * 获取可操作的
+     * 获取名下的资产
      * @param userId
+     * @return
+     */
+    Msg getByUserId(Long userId);
+
+    /**
+     * 获取部门的资产
      * @param depId
      * @return
      */
-    Msg getAvailable(Long userId, Long depId);
+    Msg getByDepId(Long depId);
 
     Msg list();
-
 }

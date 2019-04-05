@@ -1,6 +1,8 @@
 package me.maxct.asset.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.util.Assert;
 import me.maxct.asset.domain.Department;
 import me.maxct.asset.domain.Role;
 import me.maxct.asset.domain.User;
+import me.maxct.asset.dto.DepUserVO;
 import me.maxct.asset.dto.LoginVO;
 import me.maxct.asset.dto.Msg;
 import me.maxct.asset.dto.RoleVO;
@@ -68,6 +71,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Long id) {
         return userDao.findById(id).orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Override
+    public Msg getDepUser() {
+        List<Department> departments = departmentDao.findAll();
+        List<User> users = userDao.findAll();
+        List<DepUserVO> result = new ArrayList<>();
+        for (Department department : departments) {
+            DepUserVO vo = new DepUserVO();
+            vo.setName(department.getName());
+            vo.setValue(String.format("g%d", department.getId()));
+            vo.setParent("");
+            result.add(vo);
+        }
+        for (User user : users) {
+            DepUserVO vo = new DepUserVO();
+            vo.setName(user.getName());
+            vo.setValue(String.valueOf(user.getId()));
+            vo.setParent(String.format("g%d", user.getDepId()));
+            result.add(vo);
+        }
+        return Msg.ok(result);
     }
 
     @Autowired

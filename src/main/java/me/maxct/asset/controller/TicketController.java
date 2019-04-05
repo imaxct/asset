@@ -39,6 +39,9 @@ public class TicketController {
         ticket.setPropertyId(ticketDO.getPropertyId());
         ticket.setProcessId(ticketDO.getProcessId());
         ticket.setTransferUserId(ticketDO.getTransferUserId());
+        if (ticketDO.getFinalStatus() != null) {
+            ticket.setFinalStatus(ticketDO.getFinalStatus());
+        }
 
         return ticketService.submitTicket(ticket);
     }

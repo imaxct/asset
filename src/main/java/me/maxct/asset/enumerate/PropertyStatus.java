@@ -15,7 +15,9 @@ public enum PropertyStatus {
     PROCESSING("PROCESSING", "流程处理中"),
     DAMAGED("DAMAGED", "损坏"),
     LOST("LOST", "丢失"),
-    RUINED("RUINED", "报废");
+    RUINED("RUINED", "报废"),
+    OUT_OF_WORK("OUT_OF_WORK", "故障"),
+    SAME("SAME", "保持原状态");
 
     private String name;
     private String desc;

@@ -27,4 +27,10 @@ public interface UserService {
     Msg saveUser(User user);
 
     User getUser(Long id);
+
+    /**
+     * 部门和用户的汇总列表
+     * @return
+     */
+    Msg getDepUser();
 }

@@ -1,28 +1,22 @@
 package me.maxct.asset.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
-import me.maxct.asset.domain.Property;
-import me.maxct.asset.domain.Step;
-import me.maxct.asset.domain.Ticket;
+import me.maxct.asset.domain.*;
+import me.maxct.asset.domain.Process;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.PropertySimpleVO;
 import me.maxct.asset.dto.PropertyVO;
 import me.maxct.asset.enumerate.PropertyStatus;
 import me.maxct.asset.enumerate.TicketStatus;
-import me.maxct.asset.mapper.ProcessDao;
-import me.maxct.asset.mapper.PropertyDao;
-import me.maxct.asset.mapper.StepDao;
-import me.maxct.asset.mapper.TicketDao;
+import me.maxct.asset.mapper.*;
 import me.maxct.asset.service.PropertyService;
 
 /**
@@ -31,16 +25,20 @@ import me.maxct.asset.service.PropertyService;
  */
 @Service
 public class PropertyServiceImpl implements PropertyService {
-    private final PropertyDao propertyDao;
-    private final ProcessDao  processDao;
-    private final TicketDao   ticketDao;
-    private final StepDao     stepDao;
+    private final PropertyDao   propertyDao;
+    private final ProcessDao    processDao;
+    private final TicketDao     ticketDao;
+    private final StepDao       stepDao;
+    private final DepartmentDao departmentDao;
 
     @Override
     public Msg getPropertyById(Long id) {
         Optional<Property> propertyOptional = propertyDao.findById(id);
         Assert.isTrue(propertyOptional.isPresent(), "记录不存在");
-        return Msg.ok(propertyOptional.get());
+        Map<Long, String> processName = getProcessNameMap();
+        Map<Long, String> depName = getDepNameMap();
+        return Msg.ok(convertToSimpleVO(Collections.singletonList(propertyOptional.get()),
+            processName, depName));
     }
 
     @Override
@@ -83,17 +81,46 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Msg getAvailable(Long userId, Long depId) {
-        List<Property> properties = new ArrayList<>();
+    public Msg getByUserId(Long userId) {
         List<Property> list = propertyDao.findByOccupyUserId(userId);
-        if (!CollectionUtils.isEmpty(list)) {
-            properties.addAll(list);
+        Map<Long, String> processName = getProcessNameMap();
+        Map<Long, String> depName = getDepNameMap();
+        return Msg.ok(convertToSimpleVO(list, processName, depName));
+    }
+
+    @Override
+    public Msg getByDepId(Long depId) {
+        List<Property> list = propertyDao.findByDepId(depId);
+        Map<Long, String> processName = getProcessNameMap();
+        Map<Long, String> depName = getDepNameMap();
+        return Msg.ok(convertToSimpleVO(list, processName, depName));
+    }
+
+    private List<PropertySimpleVO> convertToSimpleVO(List<Property> properties,
+                                                     Map<Long, String> processName,
+                                                     Map<Long, String> depName) {
+        List<PropertySimpleVO> result = new ArrayList<>(properties.size());
+        for (Property property : properties) {
+            PropertySimpleVO vo = new PropertySimpleVO();
+            vo.setId(property.getId());
+            vo.setName(property.getName());
+            vo.setCurStatus(property.getCurStatus());
+            if (property.getProcessId() != null
+                && processName.containsKey(property.getProcessId())) {
+                vo.setCurProcess(processName.get(property.getProcessId()));
+            } else {
+                vo.setCurProcess("无");
+            }
+            if (property.getDepId() != null && depName.containsKey(property.getDepId())) {
+                vo.setDepName(depName.get(property.getDepId()));
+            }
+            vo.setOccupyUserId(property.getOccupyUserId());
+            vo.setPropertyId(property.getPropertyId());
+            vo.setGmtCreate(property.getGmtCreate());
+            vo.setGmtModified(property.getGmtModified());
+            result.add(vo);
         }
-        list = propertyDao.findByDepId(depId);
-        if (!CollectionUtils.isEmpty(list)) {
-            properties.addAll(list);
-        }
-        return Msg.ok(properties);
+        return result;
     }
 
     @Override
@@ -101,12 +128,25 @@ public class PropertyServiceImpl implements PropertyService {
         return Msg.ok(propertyDao.findAll());
     }
 
+    private Map<Long, String> getProcessNameMap() {
+        List<Process> processList = processDao.findAll();
+        return processList.stream()
+            .collect(Collectors.toMap(Process::getId, Process::getName, (o, n) -> n));
+    }
+
+    private Map<Long, String> getDepNameMap() {
+        List<Department> departments = departmentDao.findAll();
+        return departments.stream()
+            .collect(Collectors.toMap(Department::getId, Department::getName, (o, n) -> n));
+    }
+
     @Autowired
     public PropertyServiceImpl(PropertyDao propertyDao, ProcessDao processDao, StepDao stepDao,
-                               TicketDao ticketDao) {
+                               TicketDao ticketDao, DepartmentDao departmentDao) {
         this.propertyDao = propertyDao;
         this.processDao = processDao;
         this.stepDao = stepDao;
         this.ticketDao = ticketDao;
+        this.departmentDao = departmentDao;
     }
 }

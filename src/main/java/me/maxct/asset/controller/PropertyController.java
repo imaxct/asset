@@ -45,11 +45,19 @@ public class PropertyController {
     }
 
     @AuthCheck
-    @GetMapping("/avail")
-    public Msg getAvailable(HttpServletRequest request) {
+    @GetMapping("/getMy")
+    public Msg getMyProp(HttpServletRequest request) {
         User user = (User) request.getAttribute(AppConst.USER_KEY);
         Assert.notNull(user, "鉴权失败");
-        return propertyService.getAvailable(user.getId(), user.getDepId());
+        return propertyService.getByUserId(user.getId());
+    }
+
+    @AuthCheck
+    @GetMapping("/getDep")
+    public Msg getMyDepProp(HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return propertyService.getByDepId(user.getDepId());
     }
 
     @AuthCheck
