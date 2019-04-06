@@ -33,6 +33,8 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @Transactional
     public Msg addProcess(Process process, List<Step> steps) {
+        process.setGmtCreate(LocalDateTime.now());
+        process.setGmtModified(LocalDateTime.now());
         process = processDao.saveAndFlush(process);
         for (Step step : steps) {
             step.setProcessId(process.getId());
