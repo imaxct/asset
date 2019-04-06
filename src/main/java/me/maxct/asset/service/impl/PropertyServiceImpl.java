@@ -37,7 +37,7 @@ public class PropertyServiceImpl implements PropertyService {
         Assert.isTrue(propertyOptional.isPresent(), "记录不存在");
         Map<Long, String> processName = getProcessNameMap();
         Map<Long, String> depName = getDepNameMap();
-        return Msg.ok(convertToSimpleVO(Collections.singletonList(propertyOptional.get()),
+        return Msg.ok(convertToSimpleVOList(Collections.singletonList(propertyOptional.get()),
             processName, depName));
     }
 
@@ -59,8 +59,10 @@ public class PropertyServiceImpl implements PropertyService {
             ticket = ticketOptional.get();
         }
 
+        Map<Long, String> processName = getProcessNameMap();
+        Map<Long, String> depName = getDepNameMap();
         PropertyVO propertyVO = new PropertyVO();
-        propertyVO.setProperty(property);
+        propertyVO.setProperty(convertToSimpleVO(property, processName, depName));
         propertyVO.setProcesses(processDao.findByInitialStatus(property.getCurStatus()));
         propertyVO.setTicket(ticket);
         propertyVO.setStep(step);
@@ -85,7 +87,7 @@ public class PropertyServiceImpl implements PropertyService {
         List<Property> list = propertyDao.findByOccupyUserId(userId);
         Map<Long, String> processName = getProcessNameMap();
         Map<Long, String> depName = getDepNameMap();
-        return Msg.ok(convertToSimpleVO(list, processName, depName));
+        return Msg.ok(convertToSimpleVOList(list, processName, depName));
     }
 
     @Override
@@ -93,34 +95,38 @@ public class PropertyServiceImpl implements PropertyService {
         List<Property> list = propertyDao.findByDepId(depId);
         Map<Long, String> processName = getProcessNameMap();
         Map<Long, String> depName = getDepNameMap();
-        return Msg.ok(convertToSimpleVO(list, processName, depName));
+        return Msg.ok(convertToSimpleVOList(list, processName, depName));
     }
 
-    private List<PropertySimpleVO> convertToSimpleVO(List<Property> properties,
-                                                     Map<Long, String> processName,
-                                                     Map<Long, String> depName) {
+    private List<PropertySimpleVO> convertToSimpleVOList(List<Property> properties,
+                                                         Map<Long, String> processName,
+                                                         Map<Long, String> depName) {
         List<PropertySimpleVO> result = new ArrayList<>(properties.size());
         for (Property property : properties) {
-            PropertySimpleVO vo = new PropertySimpleVO();
-            vo.setId(property.getId());
-            vo.setName(property.getName());
-            vo.setCurStatus(property.getCurStatus());
-            if (property.getProcessId() != null
-                && processName.containsKey(property.getProcessId())) {
-                vo.setCurProcess(processName.get(property.getProcessId()));
-            } else {
-                vo.setCurProcess("无");
-            }
-            if (property.getDepId() != null && depName.containsKey(property.getDepId())) {
-                vo.setDepName(depName.get(property.getDepId()));
-            }
-            vo.setOccupyUserId(property.getOccupyUserId());
-            vo.setPropertyId(property.getPropertyId());
-            vo.setGmtCreate(property.getGmtCreate());
-            vo.setGmtModified(property.getGmtModified());
-            result.add(vo);
+            result.add(convertToSimpleVO(property, processName, depName));
         }
         return result;
+    }
+
+    private PropertySimpleVO convertToSimpleVO(Property property, Map<Long, String> processName,
+                                               Map<Long, String> depName) {
+        PropertySimpleVO vo = new PropertySimpleVO();
+        vo.setId(property.getId());
+        vo.setName(property.getName());
+        vo.setCurStatus(property.getCurStatus());
+        if (property.getProcessId() != null && processName.containsKey(property.getProcessId())) {
+            vo.setCurProcess(processName.get(property.getProcessId()));
+        } else {
+            vo.setCurProcess("无");
+        }
+        if (property.getDepId() != null && depName.containsKey(property.getDepId())) {
+            vo.setDepName(depName.get(property.getDepId()));
+        }
+        vo.setOccupyUserId(property.getOccupyUserId());
+        vo.setPropertyId(property.getPropertyId());
+        vo.setGmtCreate(property.getGmtCreate());
+        vo.setGmtModified(property.getGmtModified());
+        return vo;
     }
 
     @Override

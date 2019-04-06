@@ -1,5 +1,7 @@
 package me.maxct.asset.mapper;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,5 @@ import me.maxct.asset.domain.Step;
  */
 @Repository
 public interface StepDao extends JpaRepository<Step, Long> {
+    List<Step> findByProcessId(Long processId);
 }

@@ -26,4 +26,6 @@ public interface ProcessService {
      * @return
      */
     Msg getAllProcess();
+
+    Msg getById(Long id);
 }

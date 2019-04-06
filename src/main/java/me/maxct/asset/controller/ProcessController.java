@@ -26,6 +26,7 @@ public class ProcessController {
     public Msg addProcess(@RequestBody ProcessDO processDO, HttpServletRequest request) {
         User user = (User) request.getAttribute(AppConst.USER_KEY);
         Assert.notNull(user, "鉴权失败");
+        //todo TBD
 
         return processService.addProcess(null, null);
     }
@@ -37,6 +38,14 @@ public class ProcessController {
         Assert.notNull(user, "鉴权失败");
 
         return processService.getAllProcess();
+    }
+
+    @AuthCheck
+    @GetMapping("/get")
+    public Msg getById(@RequestParam Long id, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return processService.getById(id);
     }
 
     public ProcessController(ProcessService processService) {

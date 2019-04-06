@@ -18,6 +18,6 @@ public class PropertySimpleVO {
     private String         curProcess;
     private Long           occupyUserId;
     private String         depName;
-    private LocalDateTime gmtCreate;
+    private LocalDateTime  gmtCreate;
     private LocalDateTime  gmtModified;
 }

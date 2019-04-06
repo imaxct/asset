@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import me.maxct.asset.domain.Process;
 import me.maxct.asset.domain.Step;
@@ -70,6 +72,17 @@ public class ProcessServiceImpl implements ProcessService {
             result.add(vo);
         }
         return Msg.ok(result);
+    }
+
+    @Override
+    public Msg getById(Long id) {
+        Optional<Process> processOptional = processDao.findById(id);
+        Assert.isTrue(processOptional.isPresent(), "记录不存在");
+        List<Step> stepList = stepDao.findByProcessId(processOptional.get().getId());
+        ProcessVO processVO = new ProcessVO();
+        processVO.setProcess(processOptional.get());
+        processVO.setSteps(stepList);
+        return Msg.ok(processVO);
     }
 
     @Autowired

@@ -120,6 +120,15 @@ public class UserController {
         return userService.getDepUser();
     }
 
+    @AuthCheck
+    @GetMapping("/getUserName")
+    public Msg getUserNameById(@RequestParam Long id, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        User dbUser = userService.getUser(id);
+        return Msg.ok(dbUser.getName());
+    }
+
     public UserController(UserService userService) {
         this.userService = userService;
     }

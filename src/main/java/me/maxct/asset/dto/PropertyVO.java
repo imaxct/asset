@@ -4,7 +4,6 @@ import java.util.List;
 
 import lombok.Data;
 import me.maxct.asset.domain.Process;
-import me.maxct.asset.domain.Property;
 import me.maxct.asset.domain.Step;
 import me.maxct.asset.domain.Ticket;
 
@@ -16,20 +15,20 @@ import me.maxct.asset.domain.Ticket;
 @Data
 public class PropertyVO {
 
-    private Property      property;
+    private PropertySimpleVO property;
 
     /**
      * 正在进行的工单
      */
-    private Ticket        ticket;
+    private Ticket           ticket;
 
     /**
      * 当前用户可操作的步骤
      */
-    private Step          step;
+    private Step             step;
 
     /**
      * 可进行的流程
      */
-    private List<Process> processes;
+    private List<Process>    processes;
 }

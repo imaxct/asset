@@ -9,6 +9,8 @@ spring:
   aop:
     auto: true
     proxy-target-class: true
+  jpa:
+    open-in-view: false
 
 app:
   token:
