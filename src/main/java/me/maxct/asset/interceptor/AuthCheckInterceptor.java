@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
 import me.maxct.asset.constant.AppConst;
@@ -64,10 +65,8 @@ public class AuthCheckInterceptor {
         String[] arr;
         if (!StringUtils.isEmpty(role.getAuthorizedMapping())) {
             arr = role.getAuthorizedMapping().split(",");
-            for (String uri : arr) {
-                if (requestMapping.startsWith(uri)) {
-                    return joinPoint.proceed();
-                }
+            if (PatternMatchUtils.simpleMatch(arr, requestMapping)) {
+                return joinPoint.proceed();
             }
         }
 
