@@ -14,16 +14,15 @@ public interface ProcessService {
 
     /**
      * 添加一种业务流程
-     * @param process
-     * @param steps
-     * @return
+     * @param process process
+     * @param steps list
+     * @return return
      */
     Msg addProcess(Process process, List<Step> steps);
 
-
     /**
      * 获取所有业务流程
-     * @return
+     * @return return
      */
     Msg getAllProcess();
 

@@ -36,6 +36,9 @@ public class Process {
 
     private Long           firstStepId;
 
+    @Column(length = 200)
+    private String         roleRequired;
+
     @Column(length = 64)
     @Enumerated(EnumType.STRING)
     private TransferType   transferType;

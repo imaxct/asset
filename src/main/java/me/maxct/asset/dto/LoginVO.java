@@ -15,4 +15,5 @@ public class LoginVO {
     private Long   expireSecond;
     private String depName;
     private RoleVO role;
+    private Long   depId;
 }

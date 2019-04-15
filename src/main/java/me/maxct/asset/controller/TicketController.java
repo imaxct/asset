@@ -43,7 +43,7 @@ public class TicketController {
             ticket.setFinalStatus(ticketDO.getFinalStatus());
         }
 
-        return ticketService.submitTicket(ticket);
+        return ticketService.submitTicket(ticket, user);
     }
 
     @AuthCheck

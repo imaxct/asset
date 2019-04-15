@@ -40,6 +40,7 @@ public class ProcessController {
         process.setFinalStatus(processDO.getFinalStatus());
         process.setTransferType(processDO.getTransferType());
         process.setName(processDO.getName());
+        process.setRoleRequired(processDO.getRoleRequired());
 
         List<Step> steps = new ArrayList<>();
         for (StepDO stepDO : processDO.getStep()) {

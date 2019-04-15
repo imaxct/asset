@@ -56,6 +56,7 @@ CREATE TABLE `asset_process` (
   `final_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `first_step_id` bigint(19) unsigned NOT NULL,
   `transfer_type` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role_required` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -13,16 +13,16 @@ public interface UserService {
 
     /**
      * 列出用户
-     * @param pageNo
-     * @param size
-     * @return
+     * @param pageNo 页号
+     * @param size 页大小
+     * @return return
      */
     Msg listUser(int pageNo, int size);
 
     /**
      * 新增&更新用户
-     * @param user
-     * @return
+     * @param user 用户
+     * @return return
      */
     Msg saveUser(User user);
 
@@ -30,7 +30,7 @@ public interface UserService {
 
     /**
      * 部门和用户的汇总列表
-     * @return
+     * @return return
      */
     Msg getDepUser();
 }

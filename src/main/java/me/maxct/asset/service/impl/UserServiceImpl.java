@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         vo.setUsername(username);
         vo.setExpireSecond(jwtUtil.tokenExpireMinute * 60L);
         vo.setRole(new RoleVO(roleOptional.get()));
+        vo.setDepId(user.getDepId());
         return Msg.ok(vo);
     }
 

@@ -13,36 +13,36 @@ public interface PropertyService {
 
     /**
      * 根据id获取
-     * @param id
-     * @return
+     * @param id id
+     * @return return
      */
     Msg getPropertyById(Long id);
 
     /**
      * 根据uid获取
-     * @param propertyId
-     * @return
+     * @param propertyId id
+     * @return return
      */
     Msg getPropertyById(String propertyId);
 
     /**
      * 批量添加
-     * @param properties
-     * @return
+     * @param properties list
+     * @return return
      */
     Msg addProperty(List<Property> properties);
 
     /**
      * 获取名下的资产
-     * @param userId
-     * @return
+     * @param userId id
+     * @return return
      */
     Msg getByUserId(Long userId);
 
     /**
      * 获取部门的资产
-     * @param depId
-     * @return
+     * @param depId id
+     * @return return
      */
     Msg getByDepId(Long depId);
 

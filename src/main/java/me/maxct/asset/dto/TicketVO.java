@@ -14,4 +14,6 @@ import me.maxct.asset.domain.Ticket;
 public class TicketVO {
     private Ticket           ticket;
     private List<ProcessLog> logs;
+    private String           propertyId;
+    private String           propertyName;
 }

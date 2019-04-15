@@ -16,5 +16,6 @@ public class ProcessDO {
     private TransferType   transferType;
     private PropertyStatus initialStatus;
     private PropertyStatus finalStatus;
+    private String         roleRequired;
     private List<StepDO>   step;
 }

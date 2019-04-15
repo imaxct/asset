@@ -1,6 +1,7 @@
 package me.maxct.asset.service;
 
 import me.maxct.asset.domain.Ticket;
+import me.maxct.asset.domain.User;
 import me.maxct.asset.dto.Msg;
 
 /**
@@ -11,22 +12,23 @@ public interface TicketService {
 
     /**
      * 提交工单
-     * @param ticket
-     * @return
+     * @param ticket 工单
+     * @param user 用户
+     * @return return
      */
-    Msg submitTicket(Ticket ticket);
+    Msg submitTicket(Ticket ticket, User user);
 
     /**
      * 获取用户的工单
-     * @param applyUserId
-     * @return
+     * @param applyUserId 用户id
+     * @return return
      */
     Msg getTicketByUserId(Long applyUserId);
 
     /**
      * 获取工单详情 处理记录(步骤定义从processService获取)
-     * @param ticketId
-     * @return
+     * @param ticketId 工单id
+     * @return return
      */
     Msg getTicketDetail(Long ticketId);
 }
