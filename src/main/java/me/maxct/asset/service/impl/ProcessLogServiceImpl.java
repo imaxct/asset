@@ -98,7 +98,7 @@ public class ProcessLogServiceImpl implements ProcessLogService {
                 ticket.setCurStepId(stepOptional.get().getNextStepId());
             }
         } else {
-            property.setCurStatus(process.getInitialStatus());
+            property.setCurStatus(ticket.getInitialStatus());
             ticket.setCurStatus(TicketStatus.DENY);
         }
 

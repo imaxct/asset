@@ -38,5 +38,11 @@ public class Ticket {
 
     private Long           transferUserId;
 
+    @Column(length = 64)
+    @Enumerated(EnumType.STRING)
+    private PropertyStatus initialStatus;
+
+    @Column(length = 64)
+    @Enumerated(EnumType.STRING)
     private PropertyStatus finalStatus;
 }

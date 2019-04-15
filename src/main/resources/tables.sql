@@ -52,7 +52,7 @@ CREATE TABLE `asset_process` (
   `gmt_create` datetime DEFAULT current_timestamp(),
   `gmt_modified` datetime DEFAULT NULL,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `initial_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_required` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `final_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `first_step_id` bigint(19) unsigned NOT NULL,
   `transfer_type` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -211,6 +211,7 @@ CREATE TABLE `asset_ticket` (
   `dep_id` bigint(19) unsigned NOT NULL,
   `transfer_user_id` bigint(19) unsigned DEFAULT NULL,
   `final_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `initial_status` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

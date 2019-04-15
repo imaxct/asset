@@ -26,9 +26,8 @@ public class Process {
     @Column(length = 64)
     private String         name;
 
-    @Column(length = 64)
-    @Enumerated(EnumType.STRING)
-    private PropertyStatus initialStatus;
+    @Column(length = 200)
+    private String         statusRequired;
 
     @Column(length = 64)
     @Enumerated(EnumType.STRING)

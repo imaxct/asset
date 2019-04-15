@@ -14,7 +14,7 @@ import me.maxct.asset.enumerate.TransferType;
 public class ProcessDO {
     private String         name;
     private TransferType   transferType;
-    private PropertyStatus initialStatus;
+    private String         statusRequired;
     private PropertyStatus finalStatus;
     private String         roleRequired;
     private List<StepDO>   step;

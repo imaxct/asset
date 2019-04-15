@@ -36,7 +36,7 @@ public class ProcessController {
         Assert.isTrue(!StringUtils.isEmpty(processDO.getName()), "流程名为空");
 
         Process process = new Process();
-        process.setInitialStatus(processDO.getInitialStatus());
+        process.setStatusRequired(processDO.getStatusRequired());
         process.setFinalStatus(processDO.getFinalStatus());
         process.setTransferType(processDO.getTransferType());
         process.setName(processDO.getName());

@@ -60,10 +60,18 @@ public class TicketServiceImpl implements TicketService {
         }
 
         // 提交工单时，需要校验Process的initialStatus与Property的当前状态是否一致
-        //todo status
-        if (process.getInitialStatus() != null
-            && process.getInitialStatus() != property.getCurStatus()) {
-            return Msg.err("当前资产状态不满足, 不能申请当前流程");
+        if (!StringUtils.isEmpty(process.getStatusRequired())) {
+            String[] arr = process.getStatusRequired().split(",");
+            boolean satisfied = false;
+            for (String status : arr) {
+                if (property.getCurStatus().getName().equals(status)) {
+                    satisfied = true;
+                    break;
+                }
+            }
+            if (!satisfied) {
+                return Msg.err("当前资产状态不满足, 不能申请当前流程");
+            }
         }
 
         if (process.getFinalStatus() == null && ticket.getFinalStatus() == null) {
@@ -80,6 +88,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setGmtModified(LocalDateTime.now());
         ticket.setCurStatus(TicketStatus.PROCESSING);
         ticket.setCurStepId(process.getFirstStepId());
+        ticket.setInitialStatus(property.getCurStatus());
         ticketDao.saveAndFlush(ticket);
         return Msg.ok(null);
     }
