@@ -72,6 +72,8 @@ public class ProcessLogServiceImpl implements ProcessLogService {
             if (step.getNextStepId() == null) {
                 if (process.getFinalStatus() != null) {
                     property.setCurStatus(process.getFinalStatus());
+                } else if (ticket.getFinalStatus() != null){
+                    property.setCurStatus(ticket.getFinalStatus());
                 }
                 if (process.getTransferType() != null) {
                     switch (process.getTransferType()) {
