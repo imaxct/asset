@@ -41,6 +41,7 @@ public class ProcessLogController {
         processLog.setProcessProposal(processLogDO.getProcessProposal());
         processLog.setProcessUserId(user.getId());
         processLog.setStepId(processLogDO.getStepId());
+        processLog.setTicketId(processLogDO.getTicketId());
 
         return processLogService.processStep(processLog);
     }

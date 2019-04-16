@@ -1,9 +1,6 @@
 package me.maxct.asset.dto;
 
-import java.util.List;
-
 import lombok.Data;
-import me.maxct.asset.domain.Process;
 import me.maxct.asset.domain.Step;
 import me.maxct.asset.domain.Ticket;
 
@@ -26,9 +23,4 @@ public class PropertyVO {
      * 当前用户可操作的步骤
      */
     private Step             step;
-
-    /**
-     * 可进行的流程
-     */
-    private List<Process>    processes;
 }

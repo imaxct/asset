@@ -31,4 +31,11 @@ public interface TicketService {
      * @return return
      */
     Msg getTicketDetail(Long ticketId);
+
+    /**
+     * 获取待审核工单列表
+     * @param user 用户
+     * @return return
+     */
+    Msg getTodoList(User user);
 }

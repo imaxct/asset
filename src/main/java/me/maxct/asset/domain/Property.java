@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
+import me.maxct.asset.constant.AppConst;
 import me.maxct.asset.enumerate.PropertyStatus;
 
 /**
@@ -19,7 +22,9 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long           id;
+    @JsonFormat(pattern = AppConst.DATE_TIME_FORMAT, timezone = AppConst.TIME_ZONE)
     private LocalDateTime  gmtCreate;
+    @JsonFormat(pattern = AppConst.DATE_TIME_FORMAT, timezone = AppConst.TIME_ZONE)
     private LocalDateTime  gmtModified;
 
     @Column(length = 64)

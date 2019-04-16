@@ -2,7 +2,10 @@ package me.maxct.asset.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
+import me.maxct.asset.constant.AppConst;
 import me.maxct.asset.enumerate.PropertyStatus;
 
 /**
@@ -18,6 +21,8 @@ public class PropertySimpleVO {
     private String         curProcess;
     private Long           occupyUserId;
     private String         depName;
+    @JsonFormat(pattern = AppConst.DATE_TIME_FORMAT, timezone = AppConst.TIME_ZONE)
     private LocalDateTime  gmtCreate;
+    @JsonFormat(pattern = AppConst.DATE_TIME_FORMAT, timezone = AppConst.TIME_ZONE)
     private LocalDateTime  gmtModified;
 }

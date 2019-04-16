@@ -63,7 +63,7 @@ public class PropertyServiceImpl implements PropertyService {
         Map<Long, String> depName = getDepNameMap();
         PropertyVO propertyVO = new PropertyVO();
         propertyVO.setProperty(convertToSimpleVO(property, processName, depName));
-        propertyVO.setProcesses(processDao.findByInitialStatus(property.getCurStatus()));
+        // propertyVO.setProcesses(processDao.findByInitialStatus(property.getCurStatus()));
         propertyVO.setTicket(ticket);
         propertyVO.setStep(step);
         return Msg.ok(propertyVO);

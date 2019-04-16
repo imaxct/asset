@@ -1,7 +1,8 @@
 package me.maxct.asset.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.util.StringUtils;
 import me.maxct.asset.domain.*;
 import me.maxct.asset.domain.Process;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.ProcessLogVO;
 import me.maxct.asset.dto.TicketVO;
 import me.maxct.asset.enumerate.PropertyStatus;
 import me.maxct.asset.enumerate.TicketStatus;
@@ -30,6 +32,8 @@ public class TicketServiceImpl implements TicketService {
     private final PropertyDao   propertyDao;
     private final ProcessLogDao processLogDao;
     private final RoleDao       roleDao;
+    private final StepDao       stepDao;
+    private final UserDao       userDao;
 
     @Override
     @Transactional
@@ -42,6 +46,11 @@ public class TicketServiceImpl implements TicketService {
         Optional<Property> propertyOptional = propertyDao.findById(ticket.getPropertyId());
         Assert.isTrue(propertyOptional.isPresent(), "记录不存在");
         Property property = propertyOptional.get();
+
+        if (!Objects.equals(property.getDepId(), user.getDepId())) {
+            return Msg.err("您没有权限操作其他部门资产");
+        }
+        ticket.setDepId(user.getDepId());
 
         if (!StringUtils.isEmpty(process.getRoleRequired())) {
             Optional<Role> roleOptional = roleDao.findById(user.getRoleId());
@@ -90,12 +99,25 @@ public class TicketServiceImpl implements TicketService {
         ticket.setCurStepId(process.getFirstStepId());
         ticket.setInitialStatus(property.getCurStatus());
         ticketDao.saveAndFlush(ticket);
-        return Msg.ok(null);
+        return Msg.ok(Long.toString(ticket.getId()));
     }
 
     @Override
     public Msg getTicketByUserId(Long applyUserId) {
-        return Msg.ok(ticketDao.getByApplyUserId(applyUserId));
+        List<TicketVO> list = ticketDao.getTicketSimpleList(applyUserId);
+        List<Process> processList = processDao.findAll();
+        processTicketVOList(list, processList);
+        return Msg.ok(list);
+    }
+
+    private void processTicketVOList(List<TicketVO> list, List<Process> processList) {
+        Map<Long, String> processMap = processList.stream()
+            .collect(Collectors.toMap(Process::getId, Process::getName, (o, n) -> n));
+        for (TicketVO vo : list) {
+            if (processMap.containsKey(vo.getTicket().getProcessId())) {
+                vo.setProcessName(processMap.get(vo.getTicket().getProcessId()));
+            }
+        }
     }
 
     @Override
@@ -108,22 +130,63 @@ public class TicketServiceImpl implements TicketService {
         Optional<Property> propertyOptional = propertyDao.findById(ticket.getPropertyId());
         Assert.isTrue(propertyOptional.isPresent(), "记录不存在");
         Property property = propertyOptional.get();
+        List<ProcessLogVO> logList = new ArrayList<>();
+        Optional<User> userOptional = userDao.findById(ticket.getApplyUserId());
+        Assert.isTrue(userOptional.isPresent(), "记录不存在");
+
+        logList.add(new ProcessLogVO(ticket.getGmtCreate(), "提交流程", userOptional.get().getName(),
+            true, "提交流程"));
+        logList.addAll(processLogDao.getTicketLogs(ticketId));
 
         ticketVO.setTicket(ticket);
-        ticketVO.setLogs(processLogDao.findByTicketId(ticketId));
+        ticketVO.setLogs(logList);
         ticketVO.setPropertyId(property.getPropertyId());
         ticketVO.setPropertyName(property.getName());
 
         return Msg.ok(ticketVO);
     }
 
+    @Override
+    public Msg getTodoList(User user) {
+        List<TicketVO> list = ticketDao.getDepTicketList(user.getDepId());
+        List<Process> processList = processDao.findAll();
+
+        Optional<Role> roleOptional = roleDao.findById(user.getRoleId());
+        Assert.isTrue(roleOptional.isPresent(), "权限错误");
+        Role role = roleOptional.get();
+
+        Iterator<TicketVO> it = list.iterator();
+        while (it.hasNext()) {
+            TicketVO vo = it.next();
+            if (!StringUtils.isEmpty(vo.getCurStep().getRoleRequired())) {
+                String[] arr = vo.getCurStep().getRoleRequired().split(",");
+                boolean match = false;
+                for (String auth : arr) {
+                    if (role.getRoleName().equals(auth)) {
+                        match = true;
+                        break;
+                    }
+                }
+                if (!match) {
+                    it.remove();
+                }
+            }
+        }
+        processTicketVOList(list, processList);
+
+        return Msg.ok(list);
+    }
+
     @Autowired
     public TicketServiceImpl(TicketDao ticketDao, ProcessDao processDao, PropertyDao propertyDao,
-                             ProcessLogDao processLogDao, RoleDao roleDao) {
+                             ProcessLogDao processLogDao, RoleDao roleDao, StepDao stepDao,
+                             UserDao userDao) {
         this.ticketDao = ticketDao;
         this.processDao = processDao;
         this.propertyDao = propertyDao;
         this.processLogDao = processLogDao;
         this.roleDao = roleDao;
+        this.stepDao = stepDao;
+        this.userDao = userDao;
     }
 }

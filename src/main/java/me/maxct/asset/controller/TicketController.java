@@ -65,6 +65,14 @@ public class TicketController {
         return ticketService.getTicketByUserId(user.getId());
     }
 
+    @AuthCheck
+    @GetMapping("/todo")
+    public Msg getTodoList(HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return ticketService.getTodoList(user);
+    }
+
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
