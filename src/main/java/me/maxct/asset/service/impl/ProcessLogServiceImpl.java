@@ -67,16 +67,12 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         Assert.isTrue(propertyOptional.isPresent(), "资产记录不存在");
         Property property = propertyOptional.get();
 
-        // 资产状态检查
-        if (step.getStatusRequired() != null
-            && step.getStatusRequired() != property.getCurStatus()) {
-            return Msg.err("当前资产状态不满足流程要求");
-        }
-
         if (processLog.isPass()) {
             // 最后一个流程
             if (step.getNextStepId() == null) {
-                property.setCurStatus(process.getFinalStatus());
+                if (process.getFinalStatus() != null) {
+                    property.setCurStatus(process.getFinalStatus());
+                }
                 if (process.getTransferType() != null) {
                     switch (process.getTransferType()) {
                         case APPLY_USER:
@@ -93,6 +89,8 @@ public class ProcessLogServiceImpl implements ProcessLogService {
                     }
                 }
                 ticket.setCurStatus(TicketStatus.PASS);
+                ticket.setCurStepId(null);
+                property.setProcessId(null);
             } else {
                 property.setCurStatus(PropertyStatus.PROCESSING);
                 ticket.setCurStepId(stepOptional.get().getNextStepId());
@@ -100,6 +98,7 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         } else {
             property.setCurStatus(ticket.getInitialStatus());
             ticket.setCurStatus(TicketStatus.DENY);
+            property.setProcessId(null);
         }
 
         ticket.setGmtModified(LocalDateTime.now());
@@ -108,6 +107,8 @@ public class ProcessLogServiceImpl implements ProcessLogService {
         propertyDao.saveAndFlush(property);
         ticketDao.saveAndFlush(ticket);
 
+        processLog.setPropertyId(ticket.getPropertyId());
+        processLog.setProcessId(ticket.getProcessId());
         processLog.setGmtCreate(LocalDateTime.now());
         processLog.setGmtModified(LocalDateTime.now());
         processLogDao.saveAndFlush(processLog);

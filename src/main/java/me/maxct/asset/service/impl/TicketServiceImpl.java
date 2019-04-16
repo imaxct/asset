@@ -105,6 +105,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Msg getTicketByUserId(Long applyUserId) {
         List<TicketVO> list = ticketDao.getTicketSimpleList(applyUserId);
+        System.out.println(list.size());
         List<Process> processList = processDao.findAll();
         processTicketVOList(list, processList);
         return Msg.ok(list);
@@ -135,7 +136,7 @@ public class TicketServiceImpl implements TicketService {
         Assert.isTrue(userOptional.isPresent(), "记录不存在");
 
         logList.add(new ProcessLogVO(ticket.getGmtCreate(), "提交流程", userOptional.get().getName(),
-            true, "提交流程"));
+            true, ticket.getApplyReason()));
         logList.addAll(processLogDao.getTicketLogs(ticketId));
 
         ticketVO.setTicket(ticket);

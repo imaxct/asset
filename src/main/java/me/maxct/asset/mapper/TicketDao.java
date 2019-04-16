@@ -27,9 +27,10 @@ public interface TicketDao extends JpaRepository<Ticket, Long> {
      * @return return
      */
     @Query("select new me.maxct.asset.dto.TicketVO(t, p.propertyId, p.name, u.name, s) "
-           + "from Ticket t, Property p, User u, Step s "
-           + "where t.propertyId = p.id and t.applyUserId = :id "
-           + "and t.applyUserId = u.id and t.curStepId = s.id")
+           + "from Ticket t left join Property p on t.propertyId = p.id "
+           + "left join Step s on t.curStepId = s.id left join User u on t.applyUserId = u.id "
+           + "left join ProcessLog pl on t.id = pl.ticketId "
+           + "where t.applyUserId = :id or pl.processUserId = :id")
     List<TicketVO> getTicketSimpleList(@Param("id") Long applyUserId);
 
     /**
@@ -37,8 +38,8 @@ public interface TicketDao extends JpaRepository<Ticket, Long> {
      * @return return
      */
     @Query("select new me.maxct.asset.dto.TicketVO(t, p.propertyId, p.name, u.name, s) "
-           + "from Ticket t, Property p , User u, Step s "
-           + "where t.depId = :id and t.curStatus = me.maxct.asset.enumerate.TicketStatus.PROCESSING "
-           + "and t.propertyId = p.id and t.applyUserId = u.id and t.curStepId = s.id")
+           + "from Ticket t left join Property p on t.propertyId = p.id "
+           + "left join Step s on t.curStepId = s.id left join User u on t.applyUserId = u.id "
+           + "where t.depId = :id and t.curStatus = me.maxct.asset.enumerate.TicketStatus.PROCESSING")
     List<TicketVO> getDepTicketList(@Param("id") Long depId);
 }
