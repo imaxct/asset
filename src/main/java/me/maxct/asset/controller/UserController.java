@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import me.maxct.asset.constant.AppConst;
 import me.maxct.asset.domain.User;
+import me.maxct.asset.dto.LoginDO;
 import me.maxct.asset.dto.Msg;
 import me.maxct.asset.dto.PageDO;
 import me.maxct.asset.dto.UserDO;
@@ -27,9 +28,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public Msg login(@RequestParam String username, @RequestParam String password,
-                     HttpServletRequest request) {
-        return userService.login(username, password);
+    public Msg login(@RequestBody LoginDO loginDO, HttpServletRequest request) {
+        Assert.isTrue(!StringUtils.isEmpty(loginDO.getUsername()), "用户名为空");
+        Assert.isTrue(!StringUtils.isEmpty(loginDO.getPassword()), "密码为空");
+        return userService.login(loginDO.getUsername(), loginDO.getPassword());
     }
 
     @AuthCheck
