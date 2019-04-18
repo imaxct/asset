@@ -23,11 +23,14 @@ DROP TABLE IF EXISTS `asset_department`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `asset_department` (
-  `id` bigint(19) unsigned NOT NULL AUTO_INCREMENT,
-  `gmt_create` datetime DEFAULT current_timestamp(),
-  `gmt_modified` datetime DEFAULT NULL,
-  `name` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                                    `id`           bigint(19) unsigned NOT NULL AUTO_INCREMENT,
+                                    `gmt_create`   datetime                               DEFAULT current_timestamp(),
+                                    `gmt_modified` datetime                               DEFAULT NULL,
+                                    `name`         varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                    `parent_dep`   bigint(19) unsigned                    DEFAULT NULL,
+                                    `dep_id`       varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                    PRIMARY KEY (`id`),
+                                    UNIQUE KEY `asset_department_uindx_dep_id` (`dep_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

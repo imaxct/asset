@@ -8,7 +8,9 @@ import me.maxct.asset.dto.Msg;
  * 2019-04-01 16:57
  */
 public interface DepartmentService {
-    Msg saveDep(Department department);
+    Msg createDep(Department department);
+
+    Msg updateDep(Department department);
 
     Msg listDep();
 

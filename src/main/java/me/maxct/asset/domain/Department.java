@@ -28,4 +28,9 @@ public class Department {
 
     @Column(length = 64)
     private String        name;
+
+    private Long          parentDep;
+
+    @Column(length = 200)
+    private String        depId;
 }

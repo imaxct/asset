@@ -1,7 +1,5 @@
 package me.maxct.asset.controller;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
@@ -42,9 +40,9 @@ public class DepartmentController {
         Assert.notNull(user, "鉴权失败");
 
         Department department = new Department();
-        department.setGmtCreate(LocalDateTime.now());
         department.setName(depDO.getName());
-        return departmentService.saveDep(department);
+        department.setParentDep(depDO.getParentDep());
+        return departmentService.createDep(department);
     }
 
     @AuthCheck
@@ -57,9 +55,21 @@ public class DepartmentController {
         Assert.notNull(user, "鉴权失败");
 
         Department department = new Department();
+        if (depDO.getParentDep() != null) {
+            department.setId(depDO.getParentDep() == 0L ? null : depDO.getParentDep());
+        }
         department.setId(depDO.getId());
         department.setName(depDO.getName());
-        return departmentService.saveDep(department);
+        return departmentService.updateDep(department);
+    }
+
+    @AuthCheck
+    @PostMapping("/del")
+    public Msg deleteDep(@RequestBody DepDO depDO, HttpServletRequest request) {
+        Assert.notNull(depDO.getId(), "部门id为空");
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return departmentService.deleteDep(depDO.getId());
     }
 
     public DepartmentController(DepartmentService departmentService) {

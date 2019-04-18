@@ -10,4 +10,5 @@ import lombok.Data;
 public class DepDO {
     private Long   id;
     private String name;
+    private Long   parentDep;
 }
