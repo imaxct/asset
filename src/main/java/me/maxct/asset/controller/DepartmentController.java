@@ -41,7 +41,9 @@ public class DepartmentController {
 
         Department department = new Department();
         department.setName(depDO.getName());
-        department.setParentDep(depDO.getParentDep());
+        if (depDO.getParentDep() != null && depDO.getParentDep() != 0L) {
+            department.setParentDep(depDO.getParentDep());
+        }
         return departmentService.createDep(department);
     }
 

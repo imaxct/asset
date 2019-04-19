@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import me.maxct.asset.constant.AppConst;
@@ -31,6 +32,7 @@ public class User {
     @Column(length = 64)
     private String        username;
 
+    @JsonIgnore
     @Column(length = 64)
     private String        password;
 

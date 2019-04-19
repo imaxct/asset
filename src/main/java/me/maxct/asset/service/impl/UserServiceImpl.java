@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -39,12 +40,15 @@ public class UserServiceImpl implements UserService {
         Assert.isTrue(userOptional.isPresent(), "用户不存在");
         User user = userOptional.get();
 
+        Assert.isTrue(password.equals(user.getPassword()), "密码错误");
+
         Optional<Role> roleOptional = roleDao.findById(user.getRoleId());
         Assert.isTrue(roleOptional.isPresent(), "角色不存在");
 
         String token = jwtUtil.sign(user);
         Optional<Department> departmentOptional = departmentDao.findById(user.getDepId());
         Assert.isTrue(departmentOptional.isPresent(), "记录不存在");
+
         LoginVO vo = new LoginVO();
         vo.setId(user.getId());
         vo.setToken(token);
@@ -59,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Msg listUser(int pageNo, int size) {
-        return null;
+        return Msg.ok(userDao.findAll(PageRequest.of(pageNo, size)));
     }
 
     @Override
