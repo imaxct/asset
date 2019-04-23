@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.maxct.asset.domain.Property;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.PropertyDO;
 
 /**
  * @author imaxct
@@ -46,5 +47,7 @@ public interface PropertyService {
      */
     Msg getByDepId(Long depId);
 
-    Msg list();
+    Msg list(int pageNo, int size);
+
+    Msg save(PropertyDO propertyDO);
 }

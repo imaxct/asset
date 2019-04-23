@@ -5,13 +5,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import me.maxct.asset.domain.*;
 import me.maxct.asset.domain.Process;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.PropertyDO;
 import me.maxct.asset.dto.PropertySimpleVO;
 import me.maxct.asset.dto.PropertyVO;
 import me.maxct.asset.enumerate.PropertyStatus;
@@ -130,8 +133,22 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Msg list() {
-        return Msg.ok(propertyDao.findAll());
+    public Msg list(int pageNo, int size) {
+        return Msg.ok(propertyDao.list(PageRequest.of(pageNo, size)));
+    }
+
+    @Override
+    public Msg save(PropertyDO propertyDO) {
+        Optional<Property> propertyOptional = propertyDao.findById(propertyDO.getId());
+        Assert.isTrue(propertyOptional.isPresent(), "参数错误，记录不存在");
+        Property property = propertyOptional.get();
+        if (!StringUtils.isEmpty(propertyDO.getName())) {
+            property.setName(propertyDO.getName());
+        }
+        if (propertyDO.getDepId() != null) {
+            property.setDepId(propertyDO.getDepId());
+        }
+        return Msg.ok(propertyDao.saveAndFlush(property));
     }
 
     private Map<Long, String> getProcessNameMap() {
