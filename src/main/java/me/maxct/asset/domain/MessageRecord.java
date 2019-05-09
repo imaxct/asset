@@ -9,15 +9,15 @@ import lombok.Data;
 
 /**
  * @author imaxct
- * 2019-04-23 16:36
+ * 2019-05-09 21:10
  */
 @Data
 @Entity
-@Table(name = "asset_message")
-public class Message {
+@Table(name = "asset_user_message")
+public class MessageRecord {
     private Long          id;
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
-    private String        title;
-    private String        content;
+    private Long          userId;
+    private Long          msgId;
 }

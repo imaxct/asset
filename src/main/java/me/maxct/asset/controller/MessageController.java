@@ -30,6 +30,14 @@ public class MessageController {
         return messageService.getAllMessage();
     }
 
+    @AuthCheck
+    @GetMapping("/unread")
+    public Msg getUnread(HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        return messageService.getUnreadMessage(user.getId());
+    }
+
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }
