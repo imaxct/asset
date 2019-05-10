@@ -50,4 +50,6 @@ public interface PropertyService {
     Msg list(int pageNo, int size);
 
     Msg save(PropertyDO propertyDO);
+
+    Msg search(String name);
 }

@@ -151,6 +151,11 @@ public class PropertyServiceImpl implements PropertyService {
         return Msg.ok(propertyDao.saveAndFlush(property));
     }
 
+    @Override
+    public Msg search(String name) {
+        return Msg.ok(propertyDao.search(name));
+    }
+
     private Map<Long, String> getProcessNameMap() {
         List<Process> processList = processDao.findAll();
         return processList.stream()

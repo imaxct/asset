@@ -102,6 +102,15 @@ public class PropertyController {
         return propertyService.save(propertyDO);
     }
 
+    @AuthCheck
+    @PostMapping("/search")
+    public Msg search(@RequestBody PropertyDO propertyDO, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        Assert.isTrue(!StringUtils.isEmpty(propertyDO.getName()), "参数错误");
+        return propertyService.search(propertyDO.getName());
+    }
+
     public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
     }
