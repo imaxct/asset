@@ -257,6 +257,48 @@ LOCK TABLES `asset_user` WRITE;
 /*!40000 ALTER TABLE `asset_user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `asset_user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `asset_message`
+--
+
+DROP TABLE IF EXISTS `asset_message`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asset_message`
+(
+    `id`           bigint(19) unsigned                     NOT NULL AUTO_INCREMENT,
+    `gmt_create`   datetime DEFAULT current_timestamp(),
+    `gmt_modified` datetime DEFAULT NULL,
+    `content`      text COLLATE utf8mb4_unicode_ci         NOT NULL,
+    `title`        varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `asset_user_message`
+--
+
+DROP TABLE IF EXISTS `asset_user_message`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asset_user_message`
+(
+    `id`           bigint(19) unsigned NOT NULL AUTO_INCREMENT,
+    `gmt_create`   datetime DEFAULT current_timestamp(),
+    `gmt_modified` datetime DEFAULT NULL,
+    `user_id`      bigint(19) unsigned NOT NULL,
+    `msg_id`       bigint(19) unsigned NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_uid_mid` (`user_id`, `msg_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

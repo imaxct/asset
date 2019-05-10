@@ -17,4 +17,6 @@ public interface MessageService {
     Msg deleteMessage(Long id);
 
     Msg readMessage(Long userId, Long msgId);
+
+    Msg countUnread(Long userId);
 }

@@ -15,6 +15,6 @@ import me.maxct.asset.domain.Message;
  */
 @Repository
 public interface MessageDao extends JpaRepository<Message, Long> {
-    @Query("from Message m where not exists (select mr.id from MessageRecord mr where mr.userId = :id)")
+    @Query("from Message m where not exists (select mr.id from MessageRecord mr where mr.userId = :id and mr.msgId = m.id)")
     List<Message> getUnreadMessage(@Param("id") Long userId);
 }

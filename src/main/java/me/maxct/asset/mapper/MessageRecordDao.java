@@ -9,4 +9,5 @@ import me.maxct.asset.domain.MessageRecord;
  * 2019-05-09 21:23
  */
 public interface MessageRecordDao extends JpaRepository<MessageRecord, Long> {
+    long countByUserId(Long userId);
 }

@@ -39,6 +39,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Msg saveMessage(Message message) {
+
+        message.setGmtModified(LocalDateTime.now());
         return Msg.ok(messageDao.saveAndFlush(message));
     }
 
@@ -66,6 +68,13 @@ public class MessageServiceImpl implements MessageService {
             }
             return Msg.err("保存失败");
         });
+    }
+
+    @Override
+    public Msg countUnread(Long userId) {
+        long readCount = messageRecordDao.countByUserId(userId);
+        long count = messageDao.count();
+        return Msg.ok(count - readCount);
     }
 
     public MessageServiceImpl(MessageDao messageDao, TransactionTemplate template,
