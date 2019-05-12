@@ -19,4 +19,8 @@ public interface MessageService {
     Msg readMessage(Long userId, Long msgId);
 
     Msg countUnread(Long userId);
+
+    Msg pageList(int pageNo, int size);
+
+    Msg createMessage(Message message);
 }

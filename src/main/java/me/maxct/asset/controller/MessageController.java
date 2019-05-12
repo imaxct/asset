@@ -1,7 +1,5 @@
 package me.maxct.asset.controller;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
@@ -13,6 +11,7 @@ import me.maxct.asset.domain.Message;
 import me.maxct.asset.domain.User;
 import me.maxct.asset.dto.MessageDO;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.PageDO;
 import me.maxct.asset.interceptor.AuthCheck;
 import me.maxct.asset.service.MessageService;
 
@@ -34,6 +33,16 @@ public class MessageController {
     }
 
     @AuthCheck
+    @PostMapping("/listPage")
+    public Msg pageList(@RequestBody PageDO pageDO, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        Assert.isTrue(pageDO.getPageNo() >= 0, "页码错误");
+        Assert.isTrue(pageDO.getSize() > 0, "页大小错误");
+        return messageService.pageList(pageDO.getPageNo(), pageDO.getSize());
+    }
+
+    @AuthCheck
     @GetMapping("/unread")
     public Msg getUnread(HttpServletRequest request) {
         User user = (User) request.getAttribute(AppConst.USER_KEY);
@@ -49,10 +58,9 @@ public class MessageController {
         Assert.isTrue(!StringUtils.isEmpty(messageDO.getTitle()), "标题不能为空.");
         Assert.isTrue(!StringUtils.isEmpty(messageDO.getContent()), "内容不能为空.");
         Message message = new Message();
-        message.setGmtCreate(LocalDateTime.now());
         message.setTitle(messageDO.getTitle());
         message.setContent(messageDO.getContent());
-        return messageService.saveMessage(message);
+        return messageService.createMessage(message);
     }
 
     @AuthCheck
@@ -70,8 +78,9 @@ public class MessageController {
         User user = (User) request.getAttribute(AppConst.USER_KEY);
         Assert.notNull(user, "鉴权失败");
         Assert.notNull(messageDO.getId(), "id不能为空");
-        Assert.isTrue(!StringUtils.isEmpty(messageDO.getTitle()), "标题不能为空");
-        Assert.isTrue(!StringUtils.isEmpty(messageDO.getContent()), "内容不能为空");
+        Assert.isTrue(!(StringUtils.isEmpty(messageDO.getTitle())
+                        && StringUtils.isEmpty(messageDO.getContent())),
+            "更新内容不能为空");
         Message message = new Message();
         message.setId(messageDO.getId());
         message.setTitle(messageDO.getTitle());

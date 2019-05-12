@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -176,6 +177,11 @@ public class TicketServiceImpl implements TicketService {
         processTicketVOList(list, processList);
 
         return Msg.ok(list);
+    }
+
+    @Override
+    public Msg getByProcess(Long processId, int pageNo, int size) {
+        return Msg.ok(ticketDao.listByProcessType(processId, PageRequest.of(pageNo, size)));
     }
 
     @Autowired

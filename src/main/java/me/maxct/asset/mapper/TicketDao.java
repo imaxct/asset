@@ -3,6 +3,8 @@ package me.maxct.asset.mapper;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,4 +44,10 @@ public interface TicketDao extends JpaRepository<Ticket, Long> {
            + "left join Step s on t.curStepId = s.id left join User u on t.applyUserId = u.id "
            + "where t.depId = :id and t.curStatus = me.maxct.asset.enumerate.TicketStatus.PROCESSING")
     List<TicketVO> getDepTicketList(@Param("id") Long depId);
+
+    @Query("select new me.maxct.asset.dto.TicketVO(t, p.propertyId, p.name, u.name, s) "
+           + "from Ticket t left join Property p on t.propertyId = p.id "
+           + "left join Step s on t.curStepId = s.id left join User u on t.applyUserId = u.id "
+           + "where t.processId = :id")
+    Page<Ticket> listByProcessType(@Param("id") Long processId, Pageable pageable);
 }

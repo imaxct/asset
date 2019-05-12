@@ -1,13 +1,17 @@
 package me.maxct.asset.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import me.maxct.asset.domain.Message;
 import me.maxct.asset.domain.MessageRecord;
@@ -39,9 +43,17 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Msg saveMessage(Message message) {
-
+        Optional<Message> messageOptional = messageDao.findById(message.getId());
+        Assert.isTrue(messageOptional.isPresent(), "参数错误");
+        Message dbMessage = messageOptional.get();
+        if (!StringUtils.isEmpty(message.getTitle())) {
+            dbMessage.setTitle(message.getTitle());
+        }
+        if (!StringUtils.isEmpty(message.getContent())) {
+            dbMessage.setContent(message.getContent());
+        }
         message.setGmtModified(LocalDateTime.now());
-        return Msg.ok(messageDao.saveAndFlush(message));
+        return Msg.ok(messageDao.saveAndFlush(dbMessage));
     }
 
     @Override
@@ -75,6 +87,18 @@ public class MessageServiceImpl implements MessageService {
         long readCount = messageRecordDao.countByUserId(userId);
         long count = messageDao.count();
         return Msg.ok(count - readCount);
+    }
+
+    @Override
+    public Msg pageList(int pageNo, int size) {
+        return Msg.ok(messageDao.findAll(PageRequest.of(pageNo, size)));
+    }
+
+    @Override
+    public Msg createMessage(Message message) {
+        message.setGmtCreate(LocalDateTime.now());
+        message.setGmtModified(LocalDateTime.now());
+        return Msg.ok(messageDao.saveAndFlush(message));
     }
 
     public MessageServiceImpl(MessageDao messageDao, TransactionTemplate template,

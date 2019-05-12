@@ -7,7 +7,8 @@ import lombok.Data;
  * 2019-04-03 14:11
  */
 @Data
-public class PageDO {
+public class PageDO<T> {
     private int pageNo;
     private int size;
+    private T   data;
 }

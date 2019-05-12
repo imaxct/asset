@@ -38,4 +38,11 @@ public interface TicketService {
      * @return return
      */
     Msg getTodoList(User user);
+
+    /**
+     * 通过流程获取工单记录
+     * @param processId id
+     * @return msg
+     */
+    Msg getByProcess(Long processId, int pageNo, int size);
 }

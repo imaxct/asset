@@ -9,6 +9,7 @@ import me.maxct.asset.constant.AppConst;
 import me.maxct.asset.domain.Ticket;
 import me.maxct.asset.domain.User;
 import me.maxct.asset.dto.Msg;
+import me.maxct.asset.dto.PageDO;
 import me.maxct.asset.dto.TicketDO;
 import me.maxct.asset.interceptor.AuthCheck;
 import me.maxct.asset.service.TicketService;
@@ -71,6 +72,20 @@ public class TicketController {
         User user = (User) request.getAttribute(AppConst.USER_KEY);
         Assert.notNull(user, "鉴权失败");
         return ticketService.getTodoList(user);
+    }
+
+    @AuthCheck
+    @PostMapping("/listType")
+    public Msg getByProcessType(@RequestBody PageDO<Long> pageDO, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        Assert.notNull(pageDO, "参数错误");
+        Assert.notNull(pageDO.getData(), "参数错误");
+        Assert.isTrue(pageDO.getPageNo() >= 0, "页号不正确");
+        Assert.isTrue(pageDO.getSize() > 0, "页大小不正确");
+
+        Long processId = pageDO.getData();
+        return ticketService.getByProcess(processId, pageDO.getPageNo(), pageDO.getSize());
     }
 
     public TicketController(TicketService ticketService) {
