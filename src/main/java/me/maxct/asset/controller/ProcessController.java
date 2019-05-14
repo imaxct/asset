@@ -57,6 +57,27 @@ public class ProcessController {
     }
 
     @AuthCheck
+    @PostMapping("/update")
+    public Msg updateProcess(@RequestBody ProcessDO processDO, HttpServletRequest request) {
+        User user = (User) request.getAttribute(AppConst.USER_KEY);
+        Assert.notNull(user, "鉴权失败");
+        Assert.notNull(processDO.getId(), "参数错误");
+        if (StringUtils.isEmpty(processDO.getName())
+            && StringUtils.isEmpty(processDO.getStatusRequired())
+            && StringUtils.isEmpty(processDO.getRoleRequired())
+            && processDO.getFinalStatus() == null && processDO.getTransferType() == null) {
+            return Msg.err("参数错误");
+        }
+        Process process = new Process();
+        process.setId(processDO.getId());
+        process.setName(processDO.getName());
+        process.setStatusRequired(processDO.getStatusRequired());
+        process.setRoleRequired(processDO.getRoleRequired());
+        process.setFinalStatus(processDO.getFinalStatus());
+        return processService.updateProcess(process);
+    }
+
+    @AuthCheck
     @GetMapping("/list")
     public Msg listAll(HttpServletRequest request) {
         User user = (User) request.getAttribute(AppConst.USER_KEY);

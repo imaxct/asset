@@ -87,6 +87,31 @@ public class ProcessServiceImpl implements ProcessService {
         return Msg.ok(processVO);
     }
 
+    @Override
+    public Msg updateProcess(Process process) {
+        Optional<Process> processOptional = processDao.findById(process.getId());
+        Assert.isTrue(processOptional.isPresent(), "参数错误");
+        Process dbProcess = processOptional.get();
+        //if (process.getTransferType() != null) {
+        dbProcess.setTransferType(process.getTransferType());
+        //}
+        //if (process.getFinalStatus() != null) {
+        dbProcess.setFinalStatus(process.getFinalStatus());
+        //}
+        //if (!StringUtils.isEmpty(process.getRoleRequired())) {
+        dbProcess.setRoleRequired(process.getRoleRequired());
+        //}
+        //if (!StringUtils.isEmpty(process.getStatusRequired())) {
+        dbProcess.setStatusRequired(process.getStatusRequired());
+        //}
+        //if (!StringUtils.isEmpty(process.getName())) {
+        dbProcess.setName(process.getName());
+        //}
+        dbProcess.setGmtModified(LocalDateTime.now());
+        processDao.saveAndFlush(dbProcess);
+        return Msg.ok(null);
+    }
+
     @Autowired
     public ProcessServiceImpl(ProcessDao processDao, StepDao stepDao) {
         this.processDao = processDao;

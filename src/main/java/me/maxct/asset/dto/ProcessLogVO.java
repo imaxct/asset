@@ -21,4 +21,5 @@ public class ProcessLogVO {
     private String        processUser;
     private boolean       pass;
     private String        processProposal;
+    private Long          stepId;
 }

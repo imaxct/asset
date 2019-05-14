@@ -9,6 +9,7 @@ import me.maxct.asset.enumerate.PropertyStatus;
  */
 @Data
 public class StepDO {
+    private Long           id;
     private String         name;
     private String         roleRequired;
     private PropertyStatus statusRequired;

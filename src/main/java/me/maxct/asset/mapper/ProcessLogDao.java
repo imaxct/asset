@@ -18,7 +18,7 @@ import me.maxct.asset.dto.ProcessLogVO;
 public interface ProcessLogDao extends JpaRepository<ProcessLog, Long> {
     List<ProcessLog> findByTicketId(Long ticketId);
 
-    @Query("select new me.maxct.asset.dto.ProcessLogVO(p.gmtCreate, s.name, u.name, p.pass, p.processProposal) "
+    @Query("select new me.maxct.asset.dto.ProcessLogVO(p.gmtCreate, s.name, u.name, p.pass, p.processProposal, s.id) "
            + "from ProcessLog p ,Step s, User u where p.ticketId = :id and p.stepId = s.id and p.processUserId = u.id")
     List<ProcessLogVO> getTicketLogs(@Param("id") Long ticketId);
 }

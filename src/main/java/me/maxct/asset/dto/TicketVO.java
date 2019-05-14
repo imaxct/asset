@@ -36,4 +36,14 @@ public class TicketVO {
         this.applyUserName = applyUserName;
         this.curStep = step;
     }
+
+    public TicketVO(Ticket ticket, String propertyId, String propertyName, String applyUserName,
+                    Step step, String processName) {
+        this.ticket = ticket;
+        this.propertyId = propertyId;
+        this.propertyName = propertyName;
+        this.applyUserName = applyUserName;
+        this.curStep = step;
+        this.processName = processName;
+    }
 }

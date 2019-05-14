@@ -124,26 +124,17 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Msg getTicketDetail(Long ticketId) {
-        TicketVO ticketVO = new TicketVO();
-        Optional<Ticket> ticketOptional = ticketDao.findById(ticketId);
-        Assert.isTrue(ticketOptional.isPresent(), "记录不存在");
-        Ticket ticket = ticketOptional.get();
+        TicketVO ticketVO = ticketDao.getDetail(ticketId);
+        Assert.notNull(ticketVO, "参数错误");
+        Assert.notNull(ticketVO.getTicket(), "参数错误.");
 
-        Optional<Property> propertyOptional = propertyDao.findById(ticket.getPropertyId());
-        Assert.isTrue(propertyOptional.isPresent(), "记录不存在");
-        Property property = propertyOptional.get();
         List<ProcessLogVO> logList = new ArrayList<>();
-        Optional<User> userOptional = userDao.findById(ticket.getApplyUserId());
-        Assert.isTrue(userOptional.isPresent(), "记录不存在");
 
-        logList.add(new ProcessLogVO(ticket.getGmtCreate(), "提交流程", userOptional.get().getName(),
-            true, ticket.getApplyReason()));
+        logList.add(new ProcessLogVO(ticketVO.getTicket().getGmtCreate(), "提交流程",
+            ticketVO.getApplyUserName(), true, ticketVO.getTicket().getApplyReason(), 0L));
         logList.addAll(processLogDao.getTicketLogs(ticketId));
 
-        ticketVO.setTicket(ticket);
         ticketVO.setLogs(logList);
-        ticketVO.setPropertyId(property.getPropertyId());
-        ticketVO.setPropertyName(property.getName());
 
         return Msg.ok(ticketVO);
     }

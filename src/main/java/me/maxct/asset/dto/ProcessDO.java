@@ -12,6 +12,7 @@ import me.maxct.asset.enumerate.TransferType;
  */
 @Data
 public class ProcessDO {
+    private Long           id;
     private String         name;
     private TransferType   transferType;
     private String         statusRequired;

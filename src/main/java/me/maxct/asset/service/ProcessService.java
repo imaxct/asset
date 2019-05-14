@@ -27,4 +27,6 @@ public interface ProcessService {
     Msg getAllProcess();
 
     Msg getById(Long id);
+
+    Msg updateProcess(Process process);
 }
